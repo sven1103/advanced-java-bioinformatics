@@ -21,19 +21,23 @@ public class FastaReader {
 
         ArrayList<Sequence> list = new ArrayList<>();
         String currName = "";
-        Sequence currSequence;
+        String currSequence = "";
 
         String currLine = "";
         while((currLine = bfr.readLine()) != null){
             if(currLine.contains(">")){
+                if(currSequence != ""){
+                    list.add(new Sequence(currName, currSequence));
+                    currSequence = "";
+                }
                 currName = currLine.split(">")[1];
                 continue;
             }
             if(currName != ""){
-                list.add(new Sequence(currName, currLine));
-                currName = "";
+                currSequence += currLine;
             }
         }
+        list.add(new Sequence(currName, currSequence));
         return list;
     }
 }

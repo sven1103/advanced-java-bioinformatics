@@ -11,7 +11,7 @@ public class Sequence {
      * The sequence will be represented as Letter-List
      */
 
-    private List<IAlignmentLetter> sequence;
+    private ArrayList<IAlignmentLetter> sequence;
     /**
      * Each sequence will contain a name
      */
@@ -44,11 +44,18 @@ public class Sequence {
 
     /**
      * Get the sequence name
-     * @param name
      * @return
      */
-    public String getName(String name){
+    public String getName(){
         return(this.name);
+    }
+
+    /**
+     * returns the size of a sequence
+     * @return
+     */
+    public int getLength(){
+        return this.sequence.size();
     }
 
     /**
