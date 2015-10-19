@@ -42,7 +42,6 @@ public class CommandLine {
         try
         {
             lengthAlignment = sequenceList.get(0).getLength();
-            System.out.println(lengthAlignment);
         }
         catch(Exception e){
             System.err.println("Ah, the sequence list seems to be empty?");
