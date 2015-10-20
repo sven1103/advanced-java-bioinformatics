@@ -2,6 +2,7 @@ package alignmentletters;
 
 /**
  * Created by fillinger on 10/19/15.
+ * This class defines the nucleotide bases.
  */
 public class Nucleotide implements IAlignmentLetter{
 

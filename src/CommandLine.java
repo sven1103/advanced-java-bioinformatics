@@ -3,11 +3,14 @@ import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by sven on 10/18/15.
+ * This is the entry class for the alignment reader and printer.
+ * It provides the command-line interface (CLI), reads the filename
+ * and executes the FastaReader with additional formatted print out on
+ * the command line.
  */
 
 public class CommandLine {
@@ -32,11 +35,17 @@ public class CommandLine {
     public static File fileName;
 
     /**
-     * Prints the sequence alignment nicely on the console
+     * Prints the sequence alignment nicely on the console.
+     * It will dynamically format the output width in dependecy of the
+     * parameter 'width', which stands for the number of characters in one line.
      * @param sequenceList
+     * A list of sequences
+     * @param width
+     * The number of characters that shall be displayed per line
      */
     public static void printAlignment(ArrayList<Sequence> sequenceList, int width){
-
+        // for proper output formatting, this will store the total length
+        // of the alignment
         int lengthAlignment = 0;
 
         try
@@ -49,8 +58,11 @@ public class CommandLine {
             System.exit(1);
         }
 
+        // Computes the amounts of lines necessary per alignment
+        // satisfying the width constraint
         int numberLines = (int) Math.ceil((double) lengthAlignment / width);
 
+        // Print the stuff formatted
         for(int line = 1; line < numberLines; line++){
             System.out.println(String.format("%-30s %-"+(width-1)+"s %s", "", (line-1)*width+1, line*width));
             for(Sequence seq : sequenceList){
@@ -59,18 +71,19 @@ public class CommandLine {
             }
             System.out.println("");
         }
-        System.out.println(String.format("%-30s %-"+(Math.floorMod(lengthAlignment, width)-2)+"s %s", "", lengthAlignment-Math.floorMod(lengthAlignment, width)+1,lengthAlignment));
+        // Attach the last alignment line for each sequence
+        System.out.println(String.format("%-30s %-"+(Math.floorMod(lengthAlignment, width)-2)+"s %s", "",
+                lengthAlignment-Math.floorMod(lengthAlignment, width)+1,lengthAlignment));
         for(Sequence seq : sequenceList){
             System.out.println(String.format("%-30s %s", seq.getName(),
                     seq.getSequence(lengthAlignment-Math.floorMod(lengthAlignment, width), lengthAlignment-1)));
         }
-
-
     }
 
     /**
      * The main entry point :)
      * @param args
+     * The command-line arguments
      */
     public static void main(String[] args) {
 
