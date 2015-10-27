@@ -1,10 +1,13 @@
 import alignmentletters.Sequence;
-
 import java.io.*;
 import java.util.ArrayList;
 
 /**
  * Created by fillinger on 10/19/15.
+ * The FastaReader class provides a static method
+ * for reading a multi-fasta alignment file, parses the sequence into
+ * Sequence objects, and returns a list with these sequences for further
+ * manipulation.
  */
 public class FastaReader {
 
@@ -19,7 +22,7 @@ public class FastaReader {
         FileReader fr = new FileReader(fastaFile);
         BufferedReader bfr = new BufferedReader(fr);
 
-        ArrayList<Sequence> list = new ArrayList<>();
+        ArrayList<Sequence> list = new ArrayList();
         String currName = "";
         String currSequence = "";
 

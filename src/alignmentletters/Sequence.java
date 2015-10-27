@@ -1,7 +1,6 @@
 package alignmentletters;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by fillinger on 10/19/15.
@@ -21,7 +20,7 @@ public class Sequence {
      * Default constructor
      */
     public Sequence(){
-        this.sequence = new ArrayList<>();
+        this.sequence = new ArrayList();
         this.name = "";
     }
 
@@ -88,7 +87,7 @@ public class Sequence {
      * @return
      */
     public static ArrayList<IAlignmentLetter> toSequence(String string){
-        ArrayList<IAlignmentLetter> sequence = new ArrayList<>();
+        ArrayList<IAlignmentLetter> sequence = new ArrayList();
         for(char letter : string.toCharArray()){
 
             try {

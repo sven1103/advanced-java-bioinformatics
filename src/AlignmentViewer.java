@@ -16,6 +16,10 @@ import visualization.*;
 
 /**
  * Created by sven on 10/18/15.
+ * This is the entry class for the alignment reader and printer.
+ * It provides the command-line interface (CLI), reads the filename
+ * and executes the FastaReader with additional formatted print out on
+ * the command line.
  */
 public class AlignmentViewer extends Application {
     /**
@@ -81,6 +85,8 @@ public class AlignmentViewer extends Application {
         launch();
     }
 
+   
+
     @Override
     public void start(Stage primaryStage){
         /**
@@ -114,6 +120,8 @@ public class AlignmentViewer extends Application {
         primaryStage.setScene(new Scene(root, 800, 600));
 
         primaryStage.show();
+
+       
 
     }
 
