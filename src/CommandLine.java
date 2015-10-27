@@ -1,20 +1,20 @@
-import alignmentletters.Sequence;
 import org.apache.commons.cli.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import alignmentletters.Sequence;
+import visualization.*;
 
 /**
  * Created by sven on 10/18/15.
  */
-
 public class CommandLine {
     /**
      * The CLI version of this tool
      */
-    private static double VERSION = 0.1;
+    private static double VERSION = 0.2;
 
     /**
      * Stores the CLASS name
@@ -31,51 +31,16 @@ public class CommandLine {
      */
     public static File fileName;
 
-    /**
-     * Prints the sequence alignment nicely on the console
-     * @param sequenceList
-     */
-    public static void printAlignment(ArrayList<Sequence> sequenceList, int width){
 
-        int lengthAlignment = 0;
-
-        try
-        {
-            lengthAlignment = sequenceList.get(0).getLength();
-        }
-        catch(Exception e){
-            System.err.println("Ah, the sequence list seems to be empty?");
-            System.err.println(e);
-            System.exit(1);
-        }
-
-        int numberLines = (int) Math.ceil((double) lengthAlignment / width);
-
-        for(int line = 1; line < numberLines; line++){
-            System.out.println(String.format("%-30s %-"+(width-1)+"s %s", "", (line-1)*width+1, line*width));
-            for(Sequence seq : sequenceList){
-                System.out.println(String.format("%-30s %s", seq.getName(),
-                        seq.getSequence((line-1)*width, line*width)));
-            }
-            System.out.println("");
-        }
-        System.out.println(String.format("%-30s %-"+(Math.floorMod(lengthAlignment, width)-2)+"s %s", "", lengthAlignment-Math.floorMod(lengthAlignment, width)+1,lengthAlignment));
-        for(Sequence seq : sequenceList){
-            System.out.println(String.format("%-30s %s", seq.getName(),
-                    seq.getSequence(lengthAlignment-Math.floorMod(lengthAlignment, width), lengthAlignment-1)));
-        }
-
-
-    }
-
-    /**
+     /**
      * The main entry point :)
      * @param args
      */
     public static void main(String[] args) {
 
-        System.out.println("Alignment Printer " + VERSION);
-
+        /**
+           Set the argument parser options
+         */
         // the command line parameters
         Options helpOptions = new Options();
         helpOptions.addOption("h", "help", false, "show this help page");
@@ -106,6 +71,9 @@ public class CommandLine {
             System.exit(1);
         }
 
+        /**
+            The main program starts here
+         */
         // try to read in the alignment file
         try {
             sequenceList = FastaReader.readMultiFasta(fileName);
@@ -115,7 +83,9 @@ public class CommandLine {
             System.exit(1);
         }
 
-        printAlignment(sequenceList, 60);
+        String string = Visualization.printAlignment(sequenceList, 60);
+
+        System.out.println(string);
 
         System.exit(0);
 
