@@ -20,6 +20,8 @@ public class Visualization {
 
         StringBuilder alignmentString = new StringBuilder();
 
+        alignmentString.append("\n");
+
         int lengthAlignment = sequenceList.get(0).getLength();
 
         int numberLines = (int) Math.ceil((double) lengthAlignment / width);

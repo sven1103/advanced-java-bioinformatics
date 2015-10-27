@@ -1,3 +1,10 @@
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -10,7 +17,7 @@ import visualization.*;
 /**
  * Created by sven on 10/18/15.
  */
-public class CommandLine {
+public class AlignmentViewer extends Application {
     /**
      * The CLI version of this tool
      */
@@ -71,8 +78,13 @@ public class CommandLine {
             System.exit(1);
         }
 
+        launch();
+    }
+
+    @Override
+    public void start(Stage primaryStage){
         /**
-            The main program starts here
+         The main program starts here
          */
         // try to read in the alignment file
         try {
@@ -83,11 +95,26 @@ public class CommandLine {
             System.exit(1);
         }
 
-        String string = Visualization.printAlignment(sequenceList, 60);
+        /**
+         * Init alignment presentation
+         */
+        String alignmentString = Visualization.printAlignment(sequenceList, 60);
 
-        System.out.println(string);
+        System.out.println(alignmentString);
 
-        System.exit(0);
+        primaryStage.setTitle("AlignmentViewer " + VERSION);
+
+        Text seqAlignment = new Text();
+        seqAlignment.setFont(Font.font("Monospace", 12));
+        seqAlignment.setText(alignmentString);
+
+        BorderPane root = new BorderPane();
+        root.getChildren().add(seqAlignment);
+
+        primaryStage.setScene(new Scene(root, 800, 600));
+
+        primaryStage.show();
 
     }
+
 }
