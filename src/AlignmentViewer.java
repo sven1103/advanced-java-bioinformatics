@@ -178,7 +178,7 @@ public class AlignmentViewer extends Application {
         selectAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Settings.selectAll();
+                Settings.selectAll(); // true for all settings
                 cbShowHeaders.setSelected(true);
                 cbShowNumbering.setSelected(true);
                 cbShowSequences.setSelected(true);
@@ -190,7 +190,7 @@ public class AlignmentViewer extends Application {
         clearSelection.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Settings.clearAll();
+                Settings.clearAll(); // false for all settings
                 cbShowHeaders.setDisable(true);
                 cbShowHeaders.setSelected(false);
                 cbShowSequences.setSelected(false);
