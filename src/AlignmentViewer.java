@@ -126,13 +126,16 @@ public class AlignmentViewer extends Application {
         seqAlignment.setFont(Font.font("Monospace", 12));
         seqAlignment.setText(alignmentString);
 
+        /**
+         * Define the checkboxes
+         */
         final CheckBox cbShowHeaders = new CheckBox();
         cbShowHeaders.setText("Show Headers");
         cbShowHeaders.setSelected(Settings.showHeaders());
         cbShowHeaders.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Settings.toogleHeaders();
+                Settings.toogleHeaders(); // true -> false, false -> true
             }
         });
 
@@ -142,7 +145,12 @@ public class AlignmentViewer extends Application {
         cbShowSequences.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Settings.toogleSequence();
+                /*
+                It doesn't make sense to show headers without sequences,
+                so disable the checkbox for headers, if sequences are not
+                shown anymore.
+                 */
+                Settings.toogleSequence(); // true -> false, false -> true
                 if(cbShowHeaders.isDisabled()){
                     cbShowHeaders.setDisable(false);
                 } else{
@@ -157,10 +165,14 @@ public class AlignmentViewer extends Application {
         cbShowNumbering.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Settings.toogleNumbering();
+                Settings.toogleNumbering(); // true -> false, false -> true
             }
         });
 
+
+        /**
+         * Defines the view control buttons of the UI
+         */
         Button selectAll = new Button();
         selectAll.setText("Select all");
         selectAll.setOnAction(new EventHandler<ActionEvent>() {
@@ -196,6 +208,10 @@ public class AlignmentViewer extends Application {
             }
         });
 
+
+        /**
+         * Build nodes and attach them to the scene
+         */
         VBox settings = new VBox(20);
         settings.getChildren().addAll(cbShowHeaders, cbShowSequences, cbShowNumbering);
 
@@ -203,15 +219,16 @@ public class AlignmentViewer extends Application {
         viewControl.getChildren().addAll(selectAll, clearSelection, applySettings);
 
         BorderPane root = new BorderPane();
-        root.setPadding(new Insets(20, 20, 20, 20));
+        root.setPadding(new Insets(20, 20, 20, 20)); // distance to the window border
         root.setTop(headerLabel);
         root.setAlignment(seqAlignment, Pos.TOP_LEFT);
         root.setAlignment(settings, Pos.TOP_CENTER);
-        root.setMargin(seqAlignment, new Insets(20, 0, 0, 50));
+        root.setMargin(seqAlignment, new Insets(20, 0, 0, 50)); // nice formatting for the alignment
         root.setMargin(settings, new Insets(20,0,0,0));
         root.setCenter(seqAlignment);
         root.setRight(settings);
         root.setBottom(viewControl);
+
         primaryStage.setScene(new Scene(root, 1000, 600));
 
         primaryStage.show();
