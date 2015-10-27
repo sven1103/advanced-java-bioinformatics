@@ -1,9 +1,17 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import org.apache.commons.cli.*;
 
@@ -110,14 +118,101 @@ public class AlignmentViewer extends Application {
 
         primaryStage.setTitle("AlignmentViewer " + VERSION);
 
-        Text seqAlignment = new Text();
+        Label headerLabel = new Label();
+        headerLabel.setText("Alignment of your file:");
+
+
+        final Text seqAlignment = new Text();
         seqAlignment.setFont(Font.font("Monospace", 12));
         seqAlignment.setText(alignmentString);
 
-        BorderPane root = new BorderPane();
-        root.getChildren().add(seqAlignment);
+        final CheckBox cbShowHeaders = new CheckBox();
+        cbShowHeaders.setText("Show Headers");
+        cbShowHeaders.setSelected(Settings.showHeaders());
+        cbShowHeaders.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Settings.toogleHeaders();
+            }
+        });
 
-        primaryStage.setScene(new Scene(root, 800, 600));
+        final CheckBox cbShowSequences = new CheckBox();
+        cbShowSequences.setText("Show Sequences");
+        cbShowSequences.setSelected(Settings.showSequence());
+        cbShowSequences.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Settings.toogleSequence();
+                if(cbShowHeaders.isDisabled()){
+                    cbShowHeaders.setDisable(false);
+                } else{
+                    cbShowHeaders.setDisable(true);
+                }
+            }
+        });
+
+        final CheckBox cbShowNumbering = new CheckBox();
+        cbShowNumbering.setText("Show Numbering");
+        cbShowNumbering.setSelected(Settings.showNumbering());
+        cbShowNumbering.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Settings.toogleNumbering();
+            }
+        });
+
+        Button selectAll = new Button();
+        selectAll.setText("Select all");
+        selectAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Settings.selectAll();
+                cbShowHeaders.setSelected(true);
+                cbShowNumbering.setSelected(true);
+                cbShowSequences.setSelected(true);
+            }
+        });
+
+        Button clearSelection = new Button();
+        clearSelection.setText("Clear selection");
+        clearSelection.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Settings.clearAll();
+                cbShowHeaders.setDisable(true);
+                cbShowHeaders.setSelected(false);
+                cbShowSequences.setSelected(false);
+                cbShowNumbering.setSelected(false);
+            }
+        });
+
+        Button applySettings = new Button();
+        applySettings.setText("Apply");
+        applySettings.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                seqAlignment.setText(Visualization.printAlignment(sequenceList, 60));
+            }
+        });
+
+        VBox settings = new VBox(20);
+        settings.getChildren().addAll(cbShowHeaders, cbShowSequences, cbShowNumbering);
+
+        HBox viewControl = new HBox(20);
+        viewControl.getChildren().addAll(selectAll, clearSelection, applySettings);
+
+        BorderPane root = new BorderPane();
+        root.setPadding(new Insets(20, 20, 20, 20));
+        root.setTop(headerLabel);
+        root.setAlignment(seqAlignment, Pos.TOP_LEFT);
+        root.setAlignment(settings, Pos.TOP_CENTER);
+        root.setMargin(seqAlignment, new Insets(20, 0, 0, 50));
+        root.setMargin(settings, new Insets(20,0,0,0));
+        root.setCenter(seqAlignment);
+        root.setRight(settings);
+        root.setBottom(viewControl);
+        primaryStage.setScene(new Scene(root, 1000, 600));
 
         primaryStage.show();
 

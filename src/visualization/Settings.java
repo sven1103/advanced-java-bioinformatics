@@ -7,7 +7,7 @@ public class Settings {
     /**
      * Init showHeaders: show by default
      */
-    private static boolean showHeaders = false;
+    private static boolean showHeaders = true;
     /**
      * Init showSequence: show by default
      */
@@ -46,5 +46,21 @@ public class Settings {
 
     public static boolean showNumbering(){
         return showNumbering;
+    }
+
+    /**
+     * Setter methods
+     * @return
+     */
+    public static void selectAll(){
+        showHeaders = true;
+        showSequence = true;
+        showNumbering = true;
+    }
+
+    public static void clearAll(){
+        showHeaders = false;
+        showSequence = false;
+        showNumbering = false;
     }
 }
