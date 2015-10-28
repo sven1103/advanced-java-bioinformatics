@@ -51,14 +51,14 @@ public class AlignmentViewer extends Application {
     public static File fileName;
 
 
-     /**
+    /**
      * The main entry point :)
      * @param args
      */
     public static void main(String[] args) {
 
         /**
-           Set the argument parser options
+         Set the argument parser options
          */
         // the command line parameters
         Options helpOptions = new Options();
@@ -72,6 +72,12 @@ public class AlignmentViewer extends Application {
 
         // Define the parser object
         CommandLineParser parser = new DefaultParser();
+
+        if (args.length == 0) {
+            System.err.println("You have to provide an input file!");
+            helpformatter.printHelp("options", options);
+            System.exit(0);
+        }
 
         //Try to parse the arguments
         try {
@@ -93,7 +99,7 @@ public class AlignmentViewer extends Application {
         launch();
     }
 
-   
+
 
     @Override
     public void start(Stage primaryStage){
@@ -233,7 +239,7 @@ public class AlignmentViewer extends Application {
 
         primaryStage.show();
 
-       
+
 
     }
 

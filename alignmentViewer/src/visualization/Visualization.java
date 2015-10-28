@@ -53,7 +53,7 @@ public class Visualization {
                         seq.getSequence(lengthAlignment - Math.floorMod(lengthAlignment, width), lengthAlignment - 1))));            }
         }
 
-     return alignmentString.toString();
+        return alignmentString.toString();
 
     }
 
