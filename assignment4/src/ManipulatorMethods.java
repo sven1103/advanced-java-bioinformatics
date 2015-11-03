@@ -118,6 +118,23 @@ public class ManipulatorMethods {
         return (String.format("The sequence length is: %d", seq.length()));
     }
 
+    public static String formatStringWidth(String seq, int lineWidth){
+        StringBuilder formattedString = new StringBuilder();
+        seq = seq.replaceAll("\\s", "").replaceAll("\n", "");
+        if (seq.length() <= lineWidth){
+            return seq;
+        }
+        int numberLines = (seq.length()/lineWidth)+1;
+
+        for(int i=0; i<numberLines-1; i++){
+                formattedString.append(seq.substring(i*lineWidth, i*lineWidth+lineWidth));
+                formattedString.append("\n");
+        }
+        formattedString.append(seq.substring(seq.length() - seq.length()%lineWidth -1, seq.length()-1));
+
+        return formattedString.toString();
+    }
+
 
 
 }

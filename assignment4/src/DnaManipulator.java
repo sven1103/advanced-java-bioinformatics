@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -131,15 +134,34 @@ public class DnaManipulator extends Application{
         /**
          * The awesome slider control
          */
+        HBox sliderContent = new HBox();
+        sliderContent.setPrefWidth(600);
+        sliderContent.setSpacing(20);
+        sliderContent.setAlignment(Pos.CENTER);
+
+        Label sliderDescription = new Label("Output width:");
+
         Slider slider = new Slider();
+        slider.setMinWidth(250);
         slider.setMin(1);
         slider.setMax(200);
         slider.setValue(140);
         slider.setShowTickMarks(true);
         slider.setSnapToTicks(true);
         slider.setBlockIncrement(1);
-        slider.setMinorTickCount(1);
+        slider.setMinorTickCount(5);
+        slider.setMajorTickUnit(10);
 
+        Label sliderValue = new Label();
+        sliderValue.setText(String.format("%03d", (int) slider.getValue()));
+
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            sliderValue.setText(String.format("%03d", newVal.intValue()));
+            textOutputField.setText(ManipulatorMethods.formatStringWidth(textOutputField.getText(), newVal.intValue()));
+        });
+
+
+        sliderContent.getChildren().addAll(sliderDescription, slider, sliderValue);
 
 
         /**
@@ -151,7 +173,7 @@ public class DnaManipulator extends Application{
                 controlLabel,
                 controlSection,
                 new Label("\nFormat output"),
-                slider);
+                sliderContent);
         verticalShapeContainer.setAlignment(Pos.TOP_CENTER);
         mainContainer.setCenter(verticalShapeContainer);
 
