@@ -1,9 +1,12 @@
 import javafx.application.Application;
+import javafx.beans.binding.BooleanBinding;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -12,7 +15,7 @@ import javafx.stage.Stage;
 /**
  * Created by fillinger on 11/3/15.
  */
-public class BindingTest extends Application {
+public class BindingTest extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -22,8 +25,8 @@ public class BindingTest extends Application {
 
         Button okButton = new Button("OK");
 
-        TextArea textArea1 = new TextArea();
-        TextArea textArea2 = new TextArea();
+        TextField textArea1 = new TextField();
+        TextField textArea2 = new TextField();
 
         CheckBox checkBoxBronze = new CheckBox("Bronze");
         CheckBox checkBoxSilver = new CheckBox("Silver");
@@ -40,6 +43,20 @@ public class BindingTest extends Application {
         vboxContainer.setAlignment(Pos.TOP_CENTER);
 
         root.setCenter(vboxContainer);
+
+        /**
+         * This is where the magic happens
+         */
+        BooleanBinding textFieldFilled = textArea1.textProperty().isNotEmpty().
+                and(textArea1.textProperty().length().greaterThan(1)).
+                and(textArea2.textProperty().isNotEmpty().
+                and(textArea2.textProperty().length().greaterThan(1)));
+
+        BooleanBinding checkBoxSelected = checkBoxBronze.selectedProperty().
+                or(checkBoxSilver.selectedProperty()).
+                or(checkBoxGold.selectedProperty());
+
+        okButton.disableProperty().bind(textFieldFilled.and(checkBoxSelected).not());
 
 
         primaryStage.setScene(new Scene(root, 400, 500));
