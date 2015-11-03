@@ -43,7 +43,7 @@ public class ManipulatorMethods {
      * @return
      */
     public static String reverseSeq(String seq){
-        return new StringBuilder(seq).reverse().toString();
+        return new StringBuilder(filterNucleotides(seq)).reverse().toString();
     }
 
     /**
@@ -118,6 +118,13 @@ public class ManipulatorMethods {
         return (String.format("The sequence length is: %d", seq.length()));
     }
 
+
+    /**
+     *
+     * @param seq
+     * @param lineWidth
+     * @return
+     */
     public static String formatStringWidth(String seq, int lineWidth){
         StringBuilder formattedString = new StringBuilder();
         seq = seq.replaceAll("\\s", "").replaceAll("\n", "");

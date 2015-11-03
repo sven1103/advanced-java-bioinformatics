@@ -1,0 +1,64 @@
+.label{
+    -fx-font-size: 16px;
+}
+
+BorderPane{
+    -fx-background-color: linear-gradient(rgb(163,163,163) 0%, rgb(87,87,87) 0%, rgb(168,168,168) 100%);
+    -fx-padding: 25px;
+}
+
+FlowPane{
+    -fx-alignment: center;
+}
+
+.text-area .content{
+    -fx-background-color: lightgrey;
+}
+
+
+.button{
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 3,2,1;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+    -fx-min-width: 250px;
+    -fx-min-height: 40;
+    -fx-background-color:#707070,
+    linear-gradient(#fcfcfc, #f3f3f3),
+    linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
+}
+
+.button:hover{
+    -fx-background-color:#3c7fb1,
+    linear-gradient(#fafdfe, #e8f5fc),
+    linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+}
+
+.button:pressed{
+    -fx-font-size: 11px;
+}
+
+.flip-button{
+
+    -fx-background-radius: 100px;
+    -fx-min-height: 90px;
+    -fx-min-width: 90px;
+    -fx-font-size: 16px;
+}
+
+.flip-button:hover {
+    -fx-background-color:#3c7fb1,
+    linear-gradient(#fafdfe, #e8f5fc),
+    linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+
+}
+
+.flip-button:pressed{
+   -fx-font-size: 14px;
+}
+
+#clear-button{
+    -fx-background-color: linear-gradient(#fcfcfc, #f3f3f3),
+    linear-gradient(#f2f2f2 0%, #eb9897 49%, #dd8680 50%, #cf3f44 100%);
+}

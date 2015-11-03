@@ -1,4 +1,8 @@
 import javafx.application.Application;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -40,17 +44,11 @@ public class DnaManipulator extends Application{
         TextArea textInputField = new TextArea();
         TextArea textOutputField = new TextArea();
         textOutputField.setEditable(false); // bottom textarea will be not editable!
-        textInputField.setWrapText(true); // avoids ugly scrollbars
-        textOutputField.setWrapText(true);
 
         Button flipBut = new Button("Flip");
-        //textInputField.setMinSize(400, 200);
         flipBut.setAlignment(Pos.CENTER);
-        flipBut.setOnAction((value)->{{
-            StringBuilder copyText = new StringBuilder(textInputField.getText());
-            textInputField.setText(textOutputField.getText());
-            textOutputField.setText(copyText.toString());
-        }});
+        flipBut.getStyleClass().add("flip-button");
+
 
 
         /**
@@ -70,6 +68,7 @@ public class DnaManipulator extends Application{
          *      - slider: formats the content of the bottom textarea
          */
         Label controlLabel = new Label("Manipulate your sequence");
+
         FlowPane controlSection = new FlowPane();
         controlSection.setHgap(10);
         controlSection.setVgap(10);
@@ -83,8 +82,12 @@ public class DnaManipulator extends Application{
         Button gcAmountBut = new Button("GC content");
         Button seqLengthBut = new Button("length");
         Button clearButton = new Button("clear");
+        clearButton.setId("clear-button");
 
 
+        /**
+         * Define the button actions
+         */
         filterButton.setOnAction((value) ->
             textOutputField.setText(ManipulatorMethods.filterNucleotides(textInputField.getText())));
 
@@ -118,7 +121,10 @@ public class DnaManipulator extends Application{
             textOutputField.clear();
         });
 
-        // add the buttons to the control section
+
+        /**
+         * add the buttons to the control section
+          */
         controlSection.getChildren().addAll(filterButton,
                 upperCaseBut,
                 lowerCaseBut,
@@ -140,17 +146,17 @@ public class DnaManipulator extends Application{
         sliderContent.setAlignment(Pos.CENTER);
 
         Label sliderDescription = new Label("Output width:");
-
+        sliderDescription.getStyleClass().add("label");
         Slider slider = new Slider();
         slider.setMinWidth(250);
         slider.setMin(1);
         slider.setMax(200);
-        slider.setValue(140);
+        slider.setValue(60);
         slider.setShowTickMarks(true);
-        slider.setSnapToTicks(true);
+        //slider.setShowTickLabels(true);
         slider.setBlockIncrement(1);
-        slider.setMinorTickCount(5);
-        slider.setMajorTickUnit(10);
+        slider.setMinorTickCount(10);
+        slider.setMajorTickUnit(50);
 
         Label sliderValue = new Label();
         sliderValue.setText(String.format("%03d", (int) slider.getValue()));
@@ -160,9 +166,16 @@ public class DnaManipulator extends Application{
             textOutputField.setText(ManipulatorMethods.formatStringWidth(textOutputField.getText(), newVal.intValue()));
         });
 
+        /**
+         * Now set the flip button action, it shall also format using the slider value
+         */
+        flipBut.setOnAction((value)->{{
+            StringBuilder copyText = new StringBuilder(textInputField.getText());
+            textInputField.setText(textOutputField.getText());
+            textOutputField.setText(ManipulatorMethods.formatStringWidth(copyText.toString(), (int) slider.getValue()));
+        }});
 
         sliderContent.getChildren().addAll(sliderDescription, slider, sliderValue);
-
 
         /**
          * Combine the nodes on the vertical shape container and set up the scene
@@ -177,7 +190,9 @@ public class DnaManipulator extends Application{
         verticalShapeContainer.setAlignment(Pos.TOP_CENTER);
         mainContainer.setCenter(verticalShapeContainer);
 
-        primaryStage.setScene(new Scene(mainContainer, 600, 800));
+        Scene scene = new Scene(mainContainer, 600, 800);
+        scene.getStylesheets().add("stylesheet.css");
+        primaryStage.setScene(scene);
 
         primaryStage.show();
 
