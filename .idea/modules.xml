@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/advanced-java-bioinformatics.iml" filepath="$PROJECT_DIR$/.idea/advanced-java-bioinformatics.iml" />
       <module fileurl="file://$PROJECT_DIR$/alignmentViewer/alignmentViewer.iml" filepath="$PROJECT_DIR$/alignmentViewer/alignmentViewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/assignment4/assignment4.iml" filepath="$PROJECT_DIR$/assignment4/assignment4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" filepath="$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" />
     </modules>
   </component>
 </project>
