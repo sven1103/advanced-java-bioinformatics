@@ -19,7 +19,9 @@ public class ClusterViewer extends Application{
 
         primaryStage.show();
 
-        controller.printStatusError("Alex riecht nach Alk");
+        controller.initViewControls(primaryStage);
+
+        //controller.printStatusError("Alex riecht nach Alk");
     }
 
 }

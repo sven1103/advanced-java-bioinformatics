@@ -1,9 +1,8 @@
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 
 
 /**
@@ -11,21 +10,34 @@ import javafx.scene.layout.StackPane;
  */
 public class ClusterViewerView{
     private Alert alertWindow;
+    private BorderPane root;
+    private Menu menu;
+    private MenuBar menuBar;
+    private MenuItem openMenuI;
+    private MenuItem exitMenuI;
+
+    private FileChooser fileChooser;
+
+
 
     public Scene buildScene() {
         System.out.println(Platform.isFxApplicationThread());
-        StackPane root = new StackPane();
+        BorderPane root = new BorderPane();
 
-        Label label = new Label("Juhuuu geht");
+        menu = new Menu("File");
+        openMenuI = new MenuItem("Open File");
+        exitMenuI = new MenuItem("Exit");
 
-        root.getChildren().add(label);
+        menu.getItems().addAll(openMenuI, exitMenuI);
+        menuBar = new MenuBar();
+        menuBar.getMenus().addAll(menu);
 
-        return new Scene(root, 300, 200);
+        fileChooser = new FileChooser();
 
-    }
+        root.setTop(menuBar);
 
-    public Alert getAlertWindow(){
-        return this.alertWindow;
+        return new Scene(root, 500, 300);
+
     }
 
     public void setAlertWindow(Alert alert){
@@ -35,6 +47,18 @@ public class ClusterViewerView{
 
     public ButtonType getAlertWindowResult() throws NullPointerException{
         return alertWindow.getResult();
+    }
+
+    public MenuItem getOpenMenu(){
+        return this.openMenuI;
+    }
+
+    public FileChooser getFileChooser(){
+        return this.fileChooser;
+    }
+
+    public MenuItem getExitMenu(){
+        return this.exitMenuI;
     }
 
 
