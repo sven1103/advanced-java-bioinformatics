@@ -1,11 +1,14 @@
+import controllers.ClusterViewerController;
 import javafx.application.Application;
 
 import javafx.stage.Stage;
+import models.ClusterViewerModel;
+import views.ClusterViewerView;
 
 /**
  * Created by fillinger on 11/7/15.
  */
-public class ClusterViewer extends Application{
+public class StartClusterViewer extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,8 +23,6 @@ public class ClusterViewer extends Application{
         primaryStage.show();
 
         controller.initViewControls(primaryStage);
-
-        //controller.printStatusError("Alex riecht nach Alk");
     }
 
 }

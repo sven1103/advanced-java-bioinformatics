@@ -1,17 +1,24 @@
+package controllers;
+
+import controllers.IClusterViewerNotifications;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import models.ClusterViewerModel;
+import models.FastaParser;
+import views.ClusterViewerView;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
 /**
  * Created by fillinger on 11/7/15.
  */
-public class ClusterViewerController implements IClusterViewerNotifications{
+public class ClusterViewerController implements IClusterViewerNotifications {
 
     private ClusterViewerModel model;
     private ClusterViewerView view;
@@ -102,13 +109,16 @@ public class ClusterViewerController implements IClusterViewerNotifications{
                     fastaFile = file;
                     printConsoleStatus("matching FASTA file found: " + fastaFile.getName());
                     containsMatchingFastaFile = true;
+                    try{
+                        FastaParser.parseFASTA(fastaFile);
+                    } catch (IOException e){
+                        printStatusError("Fasta file format is broken, could not read from file.");
+                    }
                 }
             }
 
         }
-
         return containsMatchingFastaFile;
-
     }
 
 
