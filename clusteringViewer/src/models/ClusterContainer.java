@@ -29,4 +29,9 @@ public class ClusterContainer {
         return this.referenceSequence;
     }
 
+    public void addSequence(ClusterSequenceEntity entity){
+        this.clusterContent.add(entity);
+    }
+
+
 }

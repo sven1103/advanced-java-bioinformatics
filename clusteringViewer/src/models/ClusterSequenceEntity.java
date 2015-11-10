@@ -8,12 +8,12 @@ public class ClusterSequenceEntity {
     private String sequenceID;
     private String strain;
     private int sequenceLength;
-    private byte similarityToRef;
+    private double similarityToRef;
 
     public ClusterSequenceEntity(String sequenceID,
                                  String strain,
                                  int sequenceLength,
-                                 byte similarityToRef){
+                                 double similarityToRef){
         this.sequenceID = sequenceID;
         this.strain = strain;
         this.sequenceLength = sequenceLength;
@@ -26,7 +26,7 @@ public class ClusterSequenceEntity {
 
     public int getSequenceLength(){return this.sequenceLength;}
 
-    public byte getSimilarityToRef(){return this.similarityToRef;}
+    public double getSimilarityToRef(){return this.similarityToRef;}
 
 
 }

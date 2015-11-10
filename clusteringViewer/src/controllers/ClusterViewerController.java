@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import models.ClsrParser;
 import models.ClusterViewerModel;
 import models.FastaParser;
 import views.ClusterViewerView;
@@ -13,6 +14,8 @@ import views.ClusterViewerView;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -39,7 +42,25 @@ public class ClusterViewerController implements IClusterViewerNotifications {
         view.getOpenMenu().setOnAction((value) -> {
             clusterFile = view.getFileChooser().showOpenDialog(stage);
             if (clusterFile != null){
-                findAndSetFASTA(clusterFile);
+                if(!findAndSetFASTA(clusterFile).isEmpty()){
+                    Map<String, String> fastaParsed = new HashMap<String, String>();
+                    ClsrParser clsrParser = new ClsrParser();
+                    try {
+                        fastaParsed = FastaParser.parseFASTA(this.fastaFile);
+                    } catch (IOException e){
+                        printStatusError("[ERROR] Could not parse FASTA file.");
+                    }
+
+                    try {
+                        clsrParser.parse(fastaParsed, this.clusterFile);
+                    } catch (IOException e){
+                        printStatusError("Could not parse clusterfile!");
+                    }
+
+                } else { //Fasta HashMap is empty
+                    printStatusError("FASTA HashMap is empty!.");
+                }
+
             }
         });
         view.getExitMenu().setOnAction((value) -> Platform.exit());
@@ -72,8 +93,7 @@ public class ClusterViewerController implements IClusterViewerNotifications {
      * @param clusterFile
      * @return
      */
-    public Boolean findAndSetFASTA(File clusterFile){
-        Boolean containsMatchingFastaFile = false; // return value
+    public Map<String, String> findAndSetFASTA(File clusterFile){
         File directory = new File(clusterFile.getAbsolutePath().substring(0,
                 clusterFile.getAbsolutePath().lastIndexOf(File.separator)));
         String clusterFileName = clusterFile.getName();
@@ -99,6 +119,7 @@ public class ClusterViewerController implements IClusterViewerNotifications {
         Check in the list of FASTA files, if a matching filename corresponding
         to the cluster filename is contained
          */
+        Map<String, String> fastaSequences = new HashMap<>();
         if (foundFastaFiles.isEmpty()){
             printStatusError("Sorry, could not find any matching \n.fasta file " +
                     "in the directory \n" + directory.getAbsolutePath());
@@ -108,9 +129,8 @@ public class ClusterViewerController implements IClusterViewerNotifications {
                 if (clusterFileName.toLowerCase().contains(fileName.toLowerCase())){
                     fastaFile = file;
                     printConsoleStatus("matching FASTA file found: " + fastaFile.getName());
-                    containsMatchingFastaFile = true;
                     try{
-                        FastaParser.parseFASTA(fastaFile);
+                        fastaSequences = FastaParser.parseFASTA(fastaFile);
                     } catch (IOException e){
                         printStatusError("Fasta file format is broken, could not read from file.");
                     }
@@ -118,7 +138,7 @@ public class ClusterViewerController implements IClusterViewerNotifications {
             }
 
         }
-        return containsMatchingFastaFile;
+        return fastaSequences;
     }
 
 
