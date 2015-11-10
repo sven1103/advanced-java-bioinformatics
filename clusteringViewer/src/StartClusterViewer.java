@@ -14,7 +14,7 @@ public class StartClusterViewer extends Application{
     public void start(Stage primaryStage) throws Exception {
         ClusterViewerModel model = new ClusterViewerModel();
 
-        ClusterViewerView view = new ClusterViewerView();
+        ClusterViewerView view = new ClusterViewerView(model);
 
         ClusterViewerController controller = new ClusterViewerController(model, view);
 
@@ -23,6 +23,7 @@ public class StartClusterViewer extends Application{
         primaryStage.show();
 
         controller.initViewControls(primaryStage);
+
     }
 
 }

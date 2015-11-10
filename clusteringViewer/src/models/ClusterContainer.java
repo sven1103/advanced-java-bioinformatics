@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fillinger on 11/9/15.
@@ -9,7 +10,7 @@ public class ClusterContainer {
 
     private ClusterSequenceEntity referenceSequence;
 
-    private ArrayList<ClusterSequenceEntity> clusterContent;
+    private List<ClusterSequenceEntity> clusterContent;
 
 
     public ClusterContainer(){
@@ -31,6 +32,10 @@ public class ClusterContainer {
 
     public void addSequence(ClusterSequenceEntity entity){
         this.clusterContent.add(entity);
+    }
+
+    public List getClusterContent(){
+        return this.clusterContent;
     }
 
 

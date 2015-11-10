@@ -1,6 +1,5 @@
 package controllers;
 
-import controllers.IClusterViewerNotifications;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,12 +32,20 @@ public class ClusterViewerController implements IClusterViewerNotifications {
         this.view = view;
     }
 
-
+    /**
+     * Build Scene for the view
+     * @return
+     */
     public Scene buildScene(){
         return this.view.buildScene();
     }
 
+    /**
+     * Init all the control features of the view.
+     * @param stage
+     */
     public void initViewControls(Stage stage){
+        this.model.addObserver(this.view);
         view.getOpenMenu().setOnAction((value) -> {
             clusterFile = view.getFileChooser().showOpenDialog(stage);
             if (clusterFile != null){
@@ -52,7 +59,7 @@ public class ClusterViewerController implements IClusterViewerNotifications {
                     }
 
                     try {
-                        clsrParser.parse(fastaParsed, this.clusterFile);
+                        this.model.setClusterContainerList(clsrParser.parse(fastaParsed, this.clusterFile));
                     } catch (IOException e){
                         printStatusError("Could not parse clusterfile!");
                     }
