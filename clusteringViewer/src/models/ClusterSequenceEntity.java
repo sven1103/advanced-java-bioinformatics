@@ -10,6 +10,14 @@ public class ClusterSequenceEntity {
     private int sequenceLength;
     private double similarityToRef;
 
+
+    public ClusterSequenceEntity(String sequenceID,
+                                 String strain){
+        this.sequenceID = sequenceID;
+        this.strain = strain;
+    }
+
+
     public ClusterSequenceEntity(String sequenceID,
                                  String strain,
                                  int sequenceLength,
@@ -24,9 +32,19 @@ public class ClusterSequenceEntity {
 
     public String getStrain(){return this.strain;}
 
-    public int getSequenceLength(){return this.sequenceLength;}
+    public String getSequenceLength(){
+        if(this.sequenceLength == 0){
+            return "";
+        }
+        return Integer.toString(this.sequenceLength);
+    }
 
-    public double getSimilarityToRef(){return this.similarityToRef;}
+    public String getSimilarityToRef(){
+        if(this.similarityToRef == 0.0){
+            return "";
+        }
+        return Double.toString(this.similarityToRef);
+    }
 
 
 }

@@ -72,7 +72,7 @@ public class ClsrParser{
                     Integer.valueOf(lengthSequence), Double.valueOf(identity)));
 
         }
-
+    clusterContainerList.remove(0);
     // returns the List of cluster containers
     return clusterContainerList;
 

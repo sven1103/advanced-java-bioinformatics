@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.ClsrParser;
 import models.ClusterViewerModel;
@@ -47,7 +48,14 @@ public class ClusterViewerController implements IClusterViewerNotifications {
     public void initViewControls(Stage stage){
         this.model.addObserver(this.view);
         view.getOpenMenu().setOnAction((value) -> {
-            clusterFile = view.getFileChooser().showOpenDialog(stage);
+            FileChooser fc = view.getFileChooser();
+            fc.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All files", "*.*"),
+                    new FileChooser.ExtensionFilter("clsr (cd-hit clusterfile)", "*.clsr")
+
+            );
+            clusterFile = fc.showOpenDialog(stage);
+
             if (clusterFile != null){
                 if(!findAndSetFASTA(clusterFile).isEmpty()){
                     Map<String, String> fastaParsed = new HashMap<String, String>();
@@ -65,7 +73,7 @@ public class ClusterViewerController implements IClusterViewerNotifications {
                     }
 
                 } else { //Fasta HashMap is empty
-                    printStatusError("FASTA HashMap is empty!.");
+                    printStatusError("FASTA HashMap is empty!");
                 }
 
             }

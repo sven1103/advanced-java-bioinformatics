@@ -55,7 +55,7 @@ public class ClusterViewerView implements Observer {
         /**
          * Make the Content
          */
-        treeTableView = new TreeTableView<>();
+        //treeTableView = new TreeTableView<>();
         root.setCenter(treeTableView);
 
         /**
@@ -64,7 +64,7 @@ public class ClusterViewerView implements Observer {
         label = new Label();
         root.setBottom(label);
 
-        return new Scene(root, 500, 300);
+        return new Scene(root, 850, 500);
 
     }
 
@@ -89,62 +89,87 @@ public class ClusterViewerView implements Observer {
         return this.exitMenuI;
     }
 
-
+    /**
+     * Updates the TableTreeView, is called once the model has changed
+     * (e.g. user has load another cluster)
+     */
     public void updateTableTreeView(){
         List<ClusterContainer> clusterContainerList = this.model.getClusterContainerList();
 
-        TreeItem<ClusterSequenceEntity> fakeRoot = new TreeItem<>(new ClusterSequenceEntity("", "", 0, 0));
+        final TreeItem<ClusterSequenceEntity> fakeRoot = new TreeItem<>(new ClusterSequenceEntity("", "", 0, 0));
 
         int counter = 1;
 
+        /*
+         * Iterate through the container list of ClusterContainers and
+         * make new parent nodes for each cluster.
+         */
         for(ClusterContainer container : clusterContainerList){
             TreeItem<ClusterSequenceEntity> clusterNode =
-                    new TreeItem<>(new ClusterSequenceEntity("Cluster" + counter, "", 0, 0));
+                    new TreeItem<>(new ClusterSequenceEntity("", "Cluster " + counter));
             counter++;
             List<ClusterSequenceEntity> clusterSequenceEntityList= container.getClusterContent();
+            /*
+             * Add
+             */
             for(ClusterSequenceEntity entity : clusterSequenceEntityList){
-                System.out.println(entity.getSequenceID());
+                //System.out.println(entity.getSequenceID() + entity.getStrain() + entity.getSimilarityToRef());
                 clusterNode.getChildren().add(new TreeItem<>(entity));
             }
             fakeRoot.getChildren().add(clusterNode);
         }
 
+        /*
+         * define the strain column
+         */
         TreeTableColumn<ClusterSequenceEntity, String> strainColumn =
                 new TreeTableColumn<>("Strain");
-        strainColumn.setPrefWidth(200);
+        strainColumn.setPrefWidth(400);
         strainColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<ClusterSequenceEntity, String> param) ->
                         new ReadOnlyStringWrapper(param.getValue().getValue().getStrain())
         );
 
+        /*
+         * define the sequence length column
+         */
         TreeTableColumn<ClusterSequenceEntity, String> seqLengthCol =
                 new TreeTableColumn<>("Sequence Length (nt)");
-        strainColumn.setPrefWidth(50);
-        strainColumn.setCellValueFactory(
+        seqLengthCol.setPrefWidth(150);
+        seqLengthCol.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<ClusterSequenceEntity, String> param) ->
-                        new ReadOnlyStringWrapper(Integer.toString(param.getValue().getValue().getSequenceLength()))
+                        new ReadOnlyStringWrapper((param.getValue().getValue().getSequenceLength()))
         );
 
+
+        /*
+         * define the id column
+         */
         TreeTableColumn<ClusterSequenceEntity, String> idColumn =
                 new TreeTableColumn<>("ID");
-        strainColumn.setPrefWidth(100);
-        strainColumn.setCellValueFactory(
+        idColumn.setPrefWidth(150);
+        idColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<ClusterSequenceEntity, String> param) ->
                         new ReadOnlyStringWrapper(param.getValue().getValue().getSequenceID())
         );
 
+        /*
+         * define the identity column
+         */
         TreeTableColumn<ClusterSequenceEntity, String> identityColumn =
                 new TreeTableColumn<>("Identity(%)");
-        strainColumn.setPrefWidth(50);
-        strainColumn.setCellValueFactory(
+        identityColumn.setPrefWidth(150);
+        identityColumn.setCellValueFactory(
                 (TreeTableColumn.CellDataFeatures<ClusterSequenceEntity, String> param) ->
-                        new ReadOnlyStringWrapper(Double.toString(param.getValue().getValue().getSimilarityToRef()))
+                        new ReadOnlyStringWrapper((param.getValue().getValue().getSimilarityToRef()))
         );
 
-        this.treeTableView.setRoot(fakeRoot);
-        treeTableView.getColumns().setAll(strainColumn, idColumn, seqLengthCol, identityColumn);
+        this.treeTableView = new TreeTableView<>();
+        treeTableView.setRoot(fakeRoot);
+        treeTableView.getColumns().setAll(strainColumn, seqLengthCol, identityColumn, idColumn);
         treeTableView.setShowRoot(false);
-        label.setText("Geloaden :)))");
+        root.setCenter(treeTableView);
+        label.setText("Loaded File");
 
     }
 

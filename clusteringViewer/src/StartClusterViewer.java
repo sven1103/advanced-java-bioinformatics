@@ -20,6 +20,8 @@ public class StartClusterViewer extends Application{
 
         primaryStage.setScene(controller.buildScene());
 
+        primaryStage.setTitle("ClusterViewer 0.1");
+
         primaryStage.show();
 
         controller.initViewControls(primaryStage);
