@@ -1,9 +1,7 @@
-package de.advancedjava.dnamanipulator.view;
+package de.advancedjava.dnamanipulator;
 
-import de.advancedjava.dnamanipulator.ManipulatorMethods;
-import de.advancedjava.dnamanipulator.model.SequenceModel;
+import de.advancedjava.dnamanipulator.SequenceModel;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -52,7 +50,11 @@ public class DnaManipulatorView extends BorderPane{
      * @param model
      */
     public DnaManipulatorView(SequenceModel model){
+        super();
         this.model = model;
+        layoutTool();
+        addElements();
+        setStyles();
     }
 
     /**
@@ -108,6 +110,14 @@ public class DnaManipulatorView extends BorderPane{
         verticalShapeContainer.setAlignment(Pos.TOP_CENTER);
 
         this.setCenter(verticalShapeContainer);
+
+    }
+
+    public void setStyles(){
+        flipBut.getStyleClass().add("flip-button");
+        clearButton.setId("clear-button");
+        this.getStyleClass().add("pane");
+        controlSection.getStyleClass().add("flowpane");
 
     }
 
