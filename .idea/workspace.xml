@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9780b9e-08a2-4935-a926-37228473fb0c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/ManipulatorMethods.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment4/assignment4.iml" afterPath="$PROJECT_DIR$/assignment4/assignment4.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment4/src/stylesheet.css" afterPath="$PROJECT_DIR$/assignment4/src/stylesheet.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment5/assignment5.iml" afterPath="$PROJECT_DIR$/assignment5/assignment5.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorPresenter.java" afterPath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorPresenter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorView.java" afterPath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/SequenceModel.java" afterPath="$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/SequenceModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assignment5/src/stylesheet.css" afterPath="$PROJECT_DIR$/assignment5/src/stylesheet.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" afterPath="$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" />
     </list>
     <list id="b0e35bfa-f6d3-4e89-91b4-261d33a6d67c" name="New changelist" comment="" />
     <ignored path="advanced-java-bioinformatics.iws" />
@@ -27,30 +19,6 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="DockManager">
-    <window id="2">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="SequenceModel.java" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/SequenceModel.java">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="-1.0247469">
-                    <caret line="155" column="111" selection-start-line="155" selection-start-column="111" selection-end-line="155" selection-end-column="111" />
-                    <folding>
-                      <element signature="imports" expanded="true" />
-                      <element signature="e#10641#10642#0" expanded="true" />
-                      <element signature="e#10683#10684#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -71,8 +39,8 @@
       <file leaf-file-name="DnaManipulatorPresenter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorPresenter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.70422536">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.52112675">
+              <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1271,7 +1239,7 @@
       <workItem from="1447144899611" duration="812000" />
       <workItem from="1447145721998" duration="25609000" />
       <workItem from="1447232954380" duration="9830000" />
-      <workItem from="1447663744403" duration="17274000" />
+      <workItem from="1447663744403" duration="17510000" />
     </task>
     <task id="LOCAL-00001" summary="Extensive build-out of clusteringViewer&#10;">
       <created>1447085186434</created>
@@ -1303,11 +1271,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447178261431</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="final version dnaManipulator">
+      <created>1447748320027</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1447748320027</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61321000" />
+    <option name="totallyTimeSpent" value="61557000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="0" width="1280" height="1024" extended-state="6" />
@@ -1386,7 +1360,8 @@
     <MESSAGE value="Implemented the models for parsing and cluster container generation" />
     <MESSAGE value="tabletreeview commit" />
     <MESSAGE value="final commit of clusterviewer" />
-    <option name="LAST_COMMIT_MESSAGE" value="final commit of clusterviewer" />
+    <MESSAGE value="final version dnaManipulator" />
+    <option name="LAST_COMMIT_MESSAGE" value="final version dnaManipulator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1781,18 +1756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/SequenceModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.0247469">
-          <caret line="155" column="111" selection-start-line="155" selection-start-column="111" selection-end-line="155" selection-end-column="111" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#10641#10642#0" expanded="true" />
-            <element signature="e#10683#10684#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1817,10 +1780,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/SequenceModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.8143982">
+          <caret line="155" column="111" selection-start-line="155" selection-start-column="111" selection-end-line="155" selection-end-column="111" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#10641#10642#0" expanded="true" />
+            <element signature="e#10683#10684#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assignment5/src/de/advancedjava/dnamanipulator/DnaManipulatorPresenter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70422536">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.52112675">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

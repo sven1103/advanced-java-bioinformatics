@@ -14,7 +14,11 @@ public class DnaManipulatorPresenter {
 
     private final DnaManipulatorView view;
 
-
+    /**
+     * Constructor
+     * @param model
+     * @param view
+     */
     public DnaManipulatorPresenter(SequenceModel model, DnaManipulatorView view){
         this.model = model;
         this.view = view;
@@ -65,14 +69,21 @@ public class DnaManipulatorPresenter {
         });
     }
 
+
+    /**
+     * Set bindings from view to the model
+     */
     public void setBindings(){
         // Bind text from the upper input field to the model.
-
         view.textInputField.textProperty().bindBidirectional(model.textFieldStringProperty());
+
+        // Disable the 'toRNA' or 'toDNA' buttons with respect to the sequence property
         view.transformBut.disableProperty().bind(model.isNucleotideBooleanProperty().not().or(
                 model.isRNABooleanProperty()));
         view.dnaTransformBut.disableProperty().bind(model.isNucleotideBooleanProperty().not().or(
                 model.isDNABooleanProperty()));
+
+        // Disable the nucleotide sequence specific functions buttons
         view.complementaryBut.disableProperty().bind(model.isNucleotideBooleanProperty().not());
         view.reverseBut.disableProperty().bind(model.isNucleotideBooleanProperty().not());
         view.reverseComplementBut.disableProperty().bind(model.isNucleotideBooleanProperty().not());
