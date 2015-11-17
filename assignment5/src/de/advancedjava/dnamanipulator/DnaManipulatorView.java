@@ -11,6 +11,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
+
 /**
  * Created by fillinger on 11/11/15.
  */
@@ -32,12 +34,14 @@ public class DnaManipulatorView extends BorderPane{
     Button upperCaseBut = new Button("UPPER case");
     Button lowerCaseBut = new Button("lower case");
     Button transformBut = new Button("to RNA");
+    Button dnaTransformBut = new Button("to DNA");
     Button reverseBut = new Button("reverse");
     Button complementaryBut = new Button("complementary");
     Button reverseComplementBut = new Button("reverse-complementary");
     Button gcAmountBut = new Button("GC content");
     Button seqLengthBut = new Button("length");
     Button clearButton = new Button("clear");
+    Button exitButton = new Button("exit");
 
     // Slider area
     HBox sliderContent = new HBox();
@@ -94,12 +98,13 @@ public class DnaManipulatorView extends BorderPane{
                 upperCaseBut,
                 lowerCaseBut,
                 transformBut,
+                dnaTransformBut,
                 reverseBut,
                 complementaryBut,
                 reverseComplementBut,
                 gcAmountBut,
                 seqLengthBut,
-                clearButton);
+                clearButton, exitButton);
 
         sliderContent.setPrefWidth(600);
         sliderContent.setSpacing(20);
@@ -118,7 +123,15 @@ public class DnaManipulatorView extends BorderPane{
         clearButton.setId("clear-button");
         this.getStyleClass().add("pane");
         controlSection.getStyleClass().add("flowpane");
+        exitButton.setId("exit-button");
 
+    }
+
+
+    public void printErrors(List<String> errorList){
+        if (!errorList.isEmpty()){
+            errorList.forEach(notification -> System.err.println(notification));
+        }
     }
 
 }

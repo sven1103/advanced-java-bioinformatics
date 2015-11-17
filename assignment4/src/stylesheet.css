@@ -62,3 +62,8 @@ FlowPane{
     -fx-background-color: linear-gradient(#fcfcfc, #f3f3f3),
     linear-gradient(#f2f2f2 0%, #eb9897 49%, #dd8680 50%, #cf3f44 100%);
 }
+
+#exit-button{
+    -fx-background-color: linear-gradient(#fcfcfc, #f3f3f3),
+    linear-gradient(#f2f2f2 0%, #ebea6f 49%, #dcdd48 50%, #dddc30 100%);
+}
