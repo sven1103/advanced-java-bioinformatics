@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Courier';
+    src: url('COURIER.TTF');
+}
+
+.nucleotide_text{
+    -fx-font-weight: bold;
+}
+
+.text-field{
+    -fx-font-family: "Courier";
+}
+

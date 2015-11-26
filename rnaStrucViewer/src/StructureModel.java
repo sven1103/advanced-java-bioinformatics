@@ -76,9 +76,9 @@ public class StructureModel {
         if (this.sequence.getValue().equals("")){
             isRNA = false;
         } else {
-            if (this.sequence.getValue().toLowerCase().contains("u") && !this.sequence.getValue().toLowerCase().contains("t")
-                    || (this.sequence.getValue().toLowerCase().contains("a") || this.sequence.getValue().toLowerCase().contains("g")
-                    || this.sequence.getValue().toLowerCase().contains("c"))) {
+            if ((this.sequence.getValue().toLowerCase().contains("u") || (this.sequence.getValue().toLowerCase().contains("a")
+                    || this.sequence.getValue().toLowerCase().contains("g")
+                    || this.sequence.getValue().toLowerCase().contains("c"))) && !this.sequence.getValue().toLowerCase().contains("t")) {
             } else {
                 isRNA = false;
             }

@@ -1,10 +1,6 @@
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -61,9 +57,6 @@ public class StructureView extends BorderPane {
 
         this.setTop(controlContainer);
 
-        Rectangle rectangle = new Rectangle(200,200, Color.BLUE);
-        drawArea.getChildren().add(rectangle);
-
         this.setCenter(drawArea);
 
     }
@@ -75,6 +68,6 @@ public class StructureView extends BorderPane {
         controlContainer.setSpacing(2);
         controlBar.setSpacing(25);
         viewContainer.setSpacing(20);
-        drawArea.setStyle("-fx-background-color: #979797");
+        drawArea.setStyle("-fx-background-color: #222222");
     }
 }

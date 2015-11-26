@@ -22,6 +22,7 @@ public class StructureViewerMain extends Application{
         StructurePresenter presenter = new StructurePresenter(model, view);
 
         Scene scene = new Scene(view, 800, 480, Color.BLUE);
+        scene.getStylesheets().add("format.css");
 
         primaryStage.setTitle("RNA Structure Viewer 0.1");
         primaryStage.setScene(scene);
