@@ -25,7 +25,7 @@ public class NucleotideFactory {
 
         switch(type){
             case ADENINE:
-                requestedNucleotide = new Adenine();
+                requestedNucleotide = new InterpolatableAdenine();
                 break;
             case CYTOSINE:
                 requestedNucleotide = new Cytosine();

@@ -46,6 +46,7 @@ public abstract class AbstractNucleotideCircle extends Node{
 
     public AbstractNucleotideCircle(){
         super();
+        this.elementGroup = new Group();
         this.circle = new Circle(DEFAULT_RADIUS);
         this.shadow = new Circle(DEFAULT_RADIUS+1);
         this.toolTipMask = new Circle(DEFAULT_RADIUS+1);
@@ -54,15 +55,22 @@ public abstract class AbstractNucleotideCircle extends Node{
         this.base.setFill(Color.WHITE);
         this.base.getStyleClass().addAll("nucleotide_text");
         this.toolTipMask.setFill(Color.TRANSPARENT);
-        shapeList.add(this.shadow);
-        shapeList.add(this.circle);
-        shapeList.add(this.base);
-        shapeList.add(this.toolTipMask);
+        this.elementGroup.getChildren().addAll(this.shadow,
+                this.circle, this.base);
     }
 
     public AbstractNucleotideCircle(double x, double y){
         this();
         setCenter(x, y);
+    }
+
+
+    public double getX(){
+        return this.circle.getCenterX();
+    }
+
+    public double getY(){
+        return this.circle.getCenterY();
     }
 
     public void setCenter(double x, double y){
@@ -76,8 +84,8 @@ public abstract class AbstractNucleotideCircle extends Node{
         this.base.setY(y + DEFAULT_Y_OFFSET);
     }
 
-    public List<Shape> getNucleotide(){
-        return this.shapeList;
+    public Group getNucleotide(){
+        return this.elementGroup;
     }
 
     protected void setColor(Color color){

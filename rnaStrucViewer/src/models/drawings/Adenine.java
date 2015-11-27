@@ -33,6 +33,13 @@ public class Adenine extends AbstractNucleotideCircle {
         setBaseType();
     }
 
+    public Adenine(double x, double y){
+        super(x, y);
+        this.setColor(Color.rgb(184,133,56));
+        setTooltip("A");
+        setBaseType();
+    }
+
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         return null;
