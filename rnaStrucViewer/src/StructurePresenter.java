@@ -1,9 +1,9 @@
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import models.Graph;
@@ -31,6 +31,10 @@ public class StructurePresenter {
 
     private final StructureModel model;
     private final StructureView view;
+
+    private double lastX;
+    private double lastY;
+
 
     /**
      * Presenter constructor
@@ -70,6 +74,7 @@ public class StructurePresenter {
         view.notation.textProperty().bindBidirectional(model.getNotationProperty());
         view.drawButton.disableProperty().bind(((model.getNotationProperty().length().
                 isEqualTo(model.getSequenceProperty().length())).and(model.getSequenceProperty().isNotEmpty())).not());
+
     }
 
 
@@ -106,11 +111,18 @@ public class StructurePresenter {
         which will be added then to the draw area.
          */
         try {
+            double[][] initCoordinates;
             // The Parsing
             structure.parseNotation(model.getNotationProperty().getValue());
             // Assign the coordinates
             double[][] newCoordinates = SpringEmbedder.computeSpringEmbedding(50,
                     structure.getNumberOfNodes(), structure.getEdges(), null);
+
+            if(view.animateCheckBox.selectedProperty().getValue()){
+                initCoordinates = randomizeCoordinates(newCoordinates);
+            } else{
+                initCoordinates = newCoordinates;
+            }
 
             // Center the coordinates with respect to the draw area size
             SpringEmbedder.centerCoordinates(newCoordinates, 20, view.drawArea.widthProperty().intValue()-20,
@@ -118,46 +130,53 @@ public class StructurePresenter {
 
             // Now generate the lines and nucleotide circles
             for (int i=0; i < newCoordinates.length; i++){
-                // Check if index is part of a computed base pair
-                // and add base-pair lines if positive
-                int basePair = isPairing(i, structure.getEdges());
-                if (basePair != -1){
-                    Line basePairLine = new Line(newCoordinates[i][0], newCoordinates[i][1],
-                            newCoordinates[basePair][0], newCoordinates[basePair][1]);
-                    basePairLine.setStroke(Color.MAGENTA);
-                    basePairing.add(basePairLine);
-                }
-                // Draw connection lines between sequential nucleotides
-                if (i < newCoordinates.length-1){
-                    Line connection = new Line(newCoordinates[i][0], newCoordinates[i][1],
-                            newCoordinates[i+1][0], newCoordinates[i+1][1]);
-                    connection.setStroke(Color.WHITE);
-                    sequenceConnection.add(connection);
-                }
 
                 // Create NucleotideCircles dependent on the
                 // sequence character at position 'i'
                 Character base = model.getSequenceProperty().get().charAt(i);
                 AbstractNucleotideCircle nucleotideCircle = nucleotideFactory.getNucleotide(base.toString());
-                nucleotideCircle.setCenter(random() * view.drawArea.widthProperty().get(),
-                        random() * view.drawArea.heightProperty().get());
+                nucleotideCircle.setLayoutX(initCoordinates[i][0]);
+                nucleotideCircle.setLayoutY(initCoordinates[i][1]);
+                nucleotideCircle.setTooltip(nucleotideCircle.getClass().
+                        getSimpleName()+"\nPosition: " + (i+1));
                 nucleotideList.add(nucleotideCircle);
-                final KeyValue keyValueX0 = new KeyValue(nucleotideCircle.setTranslateX(),
-                        random() * view.drawArea.getLayoutX());
-                final KeyValue keyValueY0 = new KeyValue(nucleotideCircle.layoutYProperty(),
-                        random() * view.drawArea.getLayoutY());
-                final KeyFrame keyFrame0 = new KeyFrame(Duration.seconds(0),
-                        keyValueX0,
-                        keyValueY0);
-                final KeyValue keyValueX1 = new KeyValue(nucleotideCircle.layoutXProperty(),
-                        newCoordinates[i][1]);
-                final KeyValue keyValueY1 = new KeyValue(nucleotideCircle.layoutYProperty(),
-                        newCoordinates[i][1]);
-                final KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(2),
-                        keyValueX1,
-                        keyValueY1);
-                timeLineList.add(new Timeline(keyFrame0, keyFrame1));
+
+                // Make the animation and add it to the list
+                timeLineList.add(makeTimeline(nucleotideCircle, newCoordinates[i][0],
+                        newCoordinates[i][1], Duration.millis(1000)));
             }
+
+            // Add the connections
+            for (int i=0; i < newCoordinates.length; i++){
+                Line connection;
+                // Draw connection lines between sequential nucleotides
+                if (i < newCoordinates.length-1){
+                    connection = new Line(initCoordinates[i][0], initCoordinates[i][1],
+                            initCoordinates[i+1][0], initCoordinates[i+1][1]);
+                    connection.setStroke(Color.WHITE);
+                    sequenceConnection.add(connection);
+                    connection.startXProperty().bind(nucleotideList.get(i).getNucleotide().layoutXProperty());
+                    connection.startYProperty().bind(nucleotideList.get(i).getNucleotide().layoutYProperty());
+                    connection.endXProperty().bind(nucleotideList.get(i+1).getNucleotide().layoutXProperty());
+                    connection.endYProperty().bind(nucleotideList.get(i+1).getNucleotide().layoutYProperty());
+                }
+
+                // Check if index is part of a computed base pair
+                // and add base-pair lines if positive
+                int basePair = isPairing(i, structure.getEdges());
+                if (basePair != -1){
+                    Line basePairLine = new Line(initCoordinates[i][0], initCoordinates[i][1],
+                            initCoordinates[basePair][0], initCoordinates[basePair][1]);
+                    basePairLine.setStroke(Color.MAGENTA);
+                    basePairing.add(basePairLine);
+                    basePairLine.startXProperty().bind(nucleotideList.get(i).getNucleotide().layoutXProperty());
+                    basePairLine.startYProperty().bind(nucleotideList.get(i).getNucleotide().layoutYProperty());
+                    basePairLine.endXProperty().bind(nucleotideList.get(basePair).getNucleotide().layoutXProperty());
+                    basePairLine.endYProperty().bind(nucleotideList.get(basePair).getNucleotide().layoutYProperty());
+                }
+
+            }
+
 
             // Add the lines to the SceneGraph
             view.drawArea.getChildren().addAll(sequenceConnection);
@@ -179,10 +198,13 @@ public class StructurePresenter {
     }
 
 
+    /**
+     * Plays all Timelines in the list
+     * @param timelineList A list with timeline objects
+     */
     private void playAnimation(List<Timeline> timelineList){
         for (Timeline timeline : timelineList){
             timeline.play();
-            System.err.println("Play");
         }
     }
 
@@ -193,15 +215,21 @@ public class StructurePresenter {
     private void addInteractivity(){
         List<Node> nodeList = view.drawArea.getChildren();
         for (Node nucleotide : nodeList){
-            nucleotide.setOnMouseEntered(value -> {
-                nucleotide.setCursor(Cursor.MOVE);
-            });
-            nucleotide.setOnMouseExited(value -> nucleotide.setCursor(Cursor.DEFAULT));
-            if(nucleotide instanceof AbstractNucleotideCircle){
+            if(view.animateCheckBox.selectedProperty().getValue()){
+                nucleotide.setOnMouseEntered(event -> nucleotide.setCursor(Cursor.MOVE));
+                nucleotide.setOnMousePressed(event -> {
+                    lastX = nucleotide.getLayoutX();
+                    lastY = nucleotide.getLayoutY();
+                });
+                nucleotide.setOnMouseDragged(event -> {
+                    nucleotide.setLayoutX(event.getX() + nucleotide.getLayoutX());
+                    nucleotide.setLayoutY(event.getY() + nucleotide.getLayoutY());
+                });
+                nucleotide.setOnMouseReleased(event -> makeTimeline(nucleotide, lastX, lastY, Duration.millis(100)).play());
 
+                nucleotide.setOnMouseExited(value -> nucleotide.setCursor(Cursor.DEFAULT));
             }
         }
-
     }
 
 
@@ -227,10 +255,75 @@ public class StructurePresenter {
     }
 
 
+    /**
+     * Function that constructs a Timeline() object on a nucleotide.
+     * @param nucleotide An AbstractNucelotideCircle object
+     * @param newX The final x-value
+     * @param newY The final y-value
+     * @param duration The duration of the animation
+     * @return
+     */
+    private Timeline makeTimeline(AbstractNucleotideCircle nucleotide, double newX,
+                                  double newY, Duration duration){
+        final KeyValue keyValueX0 =
+                new KeyValue(nucleotide.getNucleotide()
+                        .layoutXProperty(), nucleotide.getLayoutX(), Interpolator.EASE_BOTH);
+        final KeyValue keyValueY0 =
+                new KeyValue(nucleotide.getNucleotide()
+                        .layoutYProperty(), nucleotide.getLayoutY(), Interpolator.EASE_BOTH);
+        final KeyFrame keyFrame0 = new KeyFrame(Duration.millis(0),
+                keyValueX0, keyValueY0);
+        final KeyValue keyValueX1 = new KeyValue(nucleotide
+                .getNucleotide().layoutXProperty(), newX, Interpolator.EASE_BOTH);
+        final KeyValue keyValueY1 = new KeyValue(nucleotide
+                .getNucleotide().layoutYProperty(), newY, Interpolator.EASE_BOTH);
+        final KeyFrame keyFrame1 = new KeyFrame(duration,
+                keyValueX1, keyValueY1);
+
+        return new Timeline(keyFrame0, keyFrame1);
+    }
 
 
+    /**
+     * Function that constructs a Timeline() object on a Node.
+     * @param nucleotide An Node object
+     * @param newX The final x-value
+     * @param newY The final y-value
+     * @param duration The duration of the animation
+     * @return
+     */
+    private Timeline makeTimeline(Node nucleotide, double newX,
+                                  double newY, Duration duration){
+        final KeyValue keyValueX0 =
+                new KeyValue(nucleotide.layoutXProperty(), nucleotide.getLayoutX(), Interpolator.EASE_BOTH);
+        final KeyValue keyValueY0 =
+                new KeyValue(nucleotide.layoutYProperty(), nucleotide.getLayoutY(), Interpolator.EASE_BOTH);
+        final KeyFrame keyFrame0 = new KeyFrame(Duration.millis(0),
+                keyValueX0, keyValueY0);
+        final KeyValue keyValueX1 = new KeyValue(nucleotide.layoutXProperty(), newX, Interpolator.EASE_BOTH);
+        final KeyValue keyValueY1 = new KeyValue(nucleotide.layoutYProperty(), newY, Interpolator.EASE_BOTH);
+        final KeyFrame keyFrame1 = new KeyFrame(duration,
+                keyValueX1, keyValueY1);
+
+        return new Timeline(keyFrame0, keyFrame1);
+    }
 
 
+    /**
+     * Randomizes a 2D coordinate array
+     * @param finalCoordinates The fixed and calculated final coordinates
+     * @return A randomized 2D-Array of coordinates
+     */
+    private double[][] randomizeCoordinates(double[][] finalCoordinates){
+        double[][] copyCoordinates = new double[finalCoordinates.length][finalCoordinates[0].length];
+        for(double[] row : copyCoordinates){
+            // randomize init x-coordinate
+            row[0] = random() * view.drawArea.widthProperty().get();
+            // randomize init y-coordinate
+            row[1] = random() * view.drawArea.heightProperty().get();
+        }
+        return copyCoordinates;
+    }
 
 
 }

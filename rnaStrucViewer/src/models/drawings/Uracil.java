@@ -21,11 +21,6 @@ import javafx.scene.paint.Color;
  */
 public class Uracil extends AbstractNucleotideCircle {
 
-    @Override
-    protected NGNode impl_createPeer() {
-        return null;
-    }
-
     public Uracil(){
         super();
         this.setColor(Color.rgb(163,179,54));
@@ -34,31 +29,10 @@ public class Uracil extends AbstractNucleotideCircle {
     }
 
     @Override
-    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        return null;
-    }
-
-    @Override
-    protected boolean impl_computeContains(double localX, double localY) {
-        return false;
-    }
-
-    @Override
-    public Object impl_processMXNode(MXNodeAlgorithm alg, MXNodeAlgorithmContext ctx) {
-        return null;
-    }
-
-    @Override
     protected void setBaseType() {
         this.base.setText("U");
     }
 
-    @Override
-    protected void setTooltip(String message) {
-        this.tooltip = new Tooltip(message);
-        tooltip.autoHideProperty().setValue(false);
-        Tooltip.install(this.toolTipMask, this.tooltip);
-    }
 
 
 }
