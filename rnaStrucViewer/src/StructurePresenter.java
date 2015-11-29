@@ -2,10 +2,14 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import models.Graph;
 import models.SpringEmbedder;
 import models.drawings.AbstractNucleotideCircle;
@@ -213,6 +217,7 @@ public class StructurePresenter {
      * Adds interactivity to the Nucleotide objects
      */
     private void addInteractivity(){
+
         List<Node> nodeList = view.drawArea.getChildren();
         for (Node nucleotide : nodeList){
             if(view.animateCheckBox.selectedProperty().getValue()){

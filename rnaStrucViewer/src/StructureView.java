@@ -46,6 +46,8 @@ public class StructureView extends BorderPane {
     private void initView(){
         sequence.setMinWidth(MIN_WIDTH);
         notation.setMinWidth(MIN_WIDTH);
+        sequence.setPromptText("Enter a valid RNA sequence.");
+        notation.setPromptText("Enter a matching structure or press 'fold'.");
 
         foldButton.setText("Fold");
         drawButton.setText("Draw");
@@ -65,6 +67,7 @@ public class StructureView extends BorderPane {
      * Set styles to the view elements
      */
     private void setStyles(){
+
         controlContainer.setSpacing(2);
         controlBar.setSpacing(25);
         viewContainer.setSpacing(20);

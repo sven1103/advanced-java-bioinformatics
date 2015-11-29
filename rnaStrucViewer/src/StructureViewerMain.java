@@ -1,7 +1,9 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Created by fillinger on 11/25/15.
@@ -26,6 +28,7 @@ public class StructureViewerMain extends Application{
 
         primaryStage.setTitle("RNA Structure Viewer 0.1");
         primaryStage.setScene(scene);
+        primaryStage.initStyle(StageStyle.UNIFIED);
 
         primaryStage.show();
 

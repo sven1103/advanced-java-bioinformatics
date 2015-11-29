@@ -9,5 +9,10 @@
 
 .text-field{
     -fx-font-family: "Courier";
+
+}
+
+.text-field:focused {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
 }
 
