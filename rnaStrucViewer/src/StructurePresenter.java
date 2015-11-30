@@ -1,7 +1,4 @@
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -102,8 +99,8 @@ public class StructurePresenter {
         List<Line> sequenceConnection = new ArrayList<>();
         // List of lines representing the predicted base-pairing
         List<Line> basePairing = new ArrayList<>();
-        // Gather the animation keyframes
-        List<Timeline> timeLineList = new ArrayList<>();
+        // Gather the animation timelines here
+        ParallelTransition timeLineList = new ParallelTransition();
 
         /*
         1. Parse the secondary structure notation from dot-bracket
@@ -146,7 +143,7 @@ public class StructurePresenter {
                 nucleotideList.add(nucleotideCircle);
 
                 // Make the animation and add it to the list
-                timeLineList.add(makeTimeline(nucleotideCircle, newCoordinates[i][0],
+                timeLineList.getChildren().add(makeTimeline(nucleotideCircle, newCoordinates[i][0],
                         newCoordinates[i][1], Duration.millis(1000)));
             }
 
@@ -198,18 +195,8 @@ public class StructurePresenter {
         // Last but not least, add interactivity
         // to the graphic elements :)
         addInteractivity();
-        playAnimation(timeLineList);
-    }
 
-
-    /**
-     * Plays all Timelines in the list
-     * @param timelineList A list with timeline objects
-     */
-    private void playAnimation(List<Timeline> timelineList){
-        for (Timeline timeline : timelineList){
-            timeline.play();
-        }
+        timeLineList.play();
     }
 
 
