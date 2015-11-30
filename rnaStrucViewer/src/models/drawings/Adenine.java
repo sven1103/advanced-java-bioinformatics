@@ -1,5 +1,6 @@
 package models.drawings;
 
+import com.sun.javafx.geom.Shape;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 

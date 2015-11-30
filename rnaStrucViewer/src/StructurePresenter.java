@@ -159,10 +159,10 @@ public class StructurePresenter {
                             initCoordinates[i+1][0], initCoordinates[i+1][1]);
                     connection.setStroke(Color.WHITE);
                     sequenceConnection.add(connection);
-                    connection.startXProperty().bind(nucleotideList.get(i).getNucleotide().layoutXProperty());
-                    connection.startYProperty().bind(nucleotideList.get(i).getNucleotide().layoutYProperty());
-                    connection.endXProperty().bind(nucleotideList.get(i+1).getNucleotide().layoutXProperty());
-                    connection.endYProperty().bind(nucleotideList.get(i+1).getNucleotide().layoutYProperty());
+                    connection.startXProperty().bind(nucleotideList.get(i).layoutXProperty());
+                    connection.startYProperty().bind(nucleotideList.get(i).layoutYProperty());
+                    connection.endXProperty().bind(nucleotideList.get(i+1).layoutXProperty());
+                    connection.endYProperty().bind(nucleotideList.get(i+1).layoutYProperty());
                 }
 
                 // Check if index is part of a computed base pair
@@ -173,10 +173,10 @@ public class StructurePresenter {
                             initCoordinates[basePair][0], initCoordinates[basePair][1]);
                     basePairLine.setStroke(Color.MAGENTA);
                     basePairing.add(basePairLine);
-                    basePairLine.startXProperty().bind(nucleotideList.get(i).getNucleotide().layoutXProperty());
-                    basePairLine.startYProperty().bind(nucleotideList.get(i).getNucleotide().layoutYProperty());
-                    basePairLine.endXProperty().bind(nucleotideList.get(basePair).getNucleotide().layoutXProperty());
-                    basePairLine.endYProperty().bind(nucleotideList.get(basePair).getNucleotide().layoutYProperty());
+                    basePairLine.startXProperty().bind(nucleotideList.get(i).layoutXProperty());
+                    basePairLine.startYProperty().bind(nucleotideList.get(i).layoutYProperty());
+                    basePairLine.endXProperty().bind(nucleotideList.get(basePair).layoutXProperty());
+                    basePairLine.endYProperty().bind(nucleotideList.get(basePair).layoutYProperty());
                 }
 
             }
@@ -188,7 +188,7 @@ public class StructurePresenter {
 
             // Add the nucleotides to the SceneGraph
             for (AbstractNucleotideCircle nucleotide : nucleotideList){
-                view.drawArea.getChildren().addAll(nucleotide.getNucleotide());
+                view.drawArea.getChildren().addAll(nucleotide);
             }
 
         } catch (IOException e){
@@ -230,7 +230,7 @@ public class StructurePresenter {
                     nucleotide.setLayoutX(event.getX() + nucleotide.getLayoutX());
                     nucleotide.setLayoutY(event.getY() + nucleotide.getLayoutY());
                 });
-                nucleotide.setOnMouseReleased(event -> makeTimeline(nucleotide, lastX, lastY, Duration.millis(100)).play());
+                nucleotide.setOnMouseReleased(event -> makeTimeline(nucleotide, lastX, lastY, Duration.millis(200)).play());
 
                 nucleotide.setOnMouseExited(value -> nucleotide.setCursor(Cursor.DEFAULT));
             }
@@ -268,35 +268,6 @@ public class StructurePresenter {
      * @param duration The duration of the animation
      * @return
      */
-    private Timeline makeTimeline(AbstractNucleotideCircle nucleotide, double newX,
-                                  double newY, Duration duration){
-        final KeyValue keyValueX0 =
-                new KeyValue(nucleotide.getNucleotide()
-                        .layoutXProperty(), nucleotide.getLayoutX(), Interpolator.EASE_BOTH);
-        final KeyValue keyValueY0 =
-                new KeyValue(nucleotide.getNucleotide()
-                        .layoutYProperty(), nucleotide.getLayoutY(), Interpolator.EASE_BOTH);
-        final KeyFrame keyFrame0 = new KeyFrame(Duration.millis(0),
-                keyValueX0, keyValueY0);
-        final KeyValue keyValueX1 = new KeyValue(nucleotide
-                .getNucleotide().layoutXProperty(), newX, Interpolator.EASE_BOTH);
-        final KeyValue keyValueY1 = new KeyValue(nucleotide
-                .getNucleotide().layoutYProperty(), newY, Interpolator.EASE_BOTH);
-        final KeyFrame keyFrame1 = new KeyFrame(duration,
-                keyValueX1, keyValueY1);
-
-        return new Timeline(keyFrame0, keyFrame1);
-    }
-
-
-    /**
-     * Function that constructs a Timeline() object on a Node.
-     * @param nucleotide An Node object
-     * @param newX The final x-value
-     * @param newY The final y-value
-     * @param duration The duration of the animation
-     * @return
-     */
     private Timeline makeTimeline(Node nucleotide, double newX,
                                   double newY, Duration duration){
         final KeyValue keyValueX0 =
@@ -305,13 +276,17 @@ public class StructurePresenter {
                 new KeyValue(nucleotide.layoutYProperty(), nucleotide.getLayoutY(), Interpolator.EASE_BOTH);
         final KeyFrame keyFrame0 = new KeyFrame(Duration.millis(0),
                 keyValueX0, keyValueY0);
-        final KeyValue keyValueX1 = new KeyValue(nucleotide.layoutXProperty(), newX, Interpolator.EASE_BOTH);
-        final KeyValue keyValueY1 = new KeyValue(nucleotide.layoutYProperty(), newY, Interpolator.EASE_BOTH);
+        final KeyValue keyValueX1 = new KeyValue(nucleotide
+                .layoutXProperty(), newX, Interpolator.EASE_BOTH);
+        final KeyValue keyValueY1 = new KeyValue(nucleotide
+                .layoutYProperty(), newY, Interpolator.EASE_BOTH);
         final KeyFrame keyFrame1 = new KeyFrame(duration,
                 keyValueX1, keyValueY1);
 
         return new Timeline(keyFrame0, keyFrame1);
     }
+
+
 
 
     /**

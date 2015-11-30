@@ -2,9 +2,11 @@ package models.drawings;
 
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
 
@@ -19,7 +21,7 @@ import javafx.scene.text.Text;
  * Date: 11/26/15
  * EMail: sven.fillinger@student.uni-tuebingen.de
  */
-public abstract class AbstractNucleotideCircle extends Group{
+public abstract class AbstractNucleotideCircle extends Group {
 
     protected Circle circle;
 
@@ -29,7 +31,7 @@ public abstract class AbstractNucleotideCircle extends Group{
 
     protected Circle toolTipMask;
 
-    protected Group elementGroup;
+    //protected Group elementGroup;
 
     private final double DEFAULT_RADIUS = 10;
 
@@ -41,7 +43,7 @@ public abstract class AbstractNucleotideCircle extends Group{
 
     public AbstractNucleotideCircle(){
         super();
-        this.elementGroup = new Group();
+        //this.elementGroup = new Group();
         this.circle = new Circle(DEFAULT_RADIUS);
         this.shadow = new Circle(DEFAULT_RADIUS+1);
         this.toolTipMask = new Circle(DEFAULT_RADIUS+1);
@@ -50,20 +52,17 @@ public abstract class AbstractNucleotideCircle extends Group{
         this.base.setFill(Color.WHITE);
         this.base.getStyleClass().addAll("nucleotide_text");
         this.toolTipMask.setFill(Color.TRANSPARENT);
-        this.elementGroup.getChildren().addAll(this.shadow,
-                this.circle, this.base, this.toolTipMask);
+        //this.elementGroup.getChildren().addAll(this.shadow,
+        //        this.circle, this.base, this.toolTipMask);
+        this.getChildren().addAll(this.shadow, this.circle, this.base, this.toolTipMask);
         this.base.layoutXProperty().setValue(this.circle.getCenterX()+DEFAULT_X_OFFSET);
         this.base.layoutYProperty().setValue(this.circle.getCenterY()+DEFAULT_Y_OFFSET);
     }
 
     public AbstractNucleotideCircle(double x, double y){
         this();
-        this.elementGroup.layoutXProperty().setValue(x);
-        this.elementGroup.layoutYProperty().setValue(y);
-    }
-
-    public Group getNucleotide(){
-        return this.elementGroup;
+        this.layoutXProperty().setValue(x);
+        this.layoutYProperty().setValue(y);
     }
 
     protected void setColor(Color color){
