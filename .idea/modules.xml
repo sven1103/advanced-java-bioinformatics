@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/alignmentViewer/alignmentViewer.iml" filepath="$PROJECT_DIR$/alignmentViewer/alignmentViewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/assignment4/assignment4.iml" filepath="$PROJECT_DIR$/assignment4/assignment4.iml" />
       <module fileurl="file://$PROJECT_DIR$/assignment5/assignment5.iml" filepath="$PROJECT_DIR$/assignment5/assignment5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assignment8/assignment8.iml" filepath="$PROJECT_DIR$/assignment8/assignment8.iml" />
       <module fileurl="file://$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" filepath="$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/rnaStrucViewer/rnaStrucViewer.iml" filepath="$PROJECT_DIR$/rnaStrucViewer/rnaStrucViewer.iml" />
     </modules>
