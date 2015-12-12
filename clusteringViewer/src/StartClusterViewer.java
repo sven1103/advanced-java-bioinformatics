@@ -1,4 +1,4 @@
-import controllers.ClusterViewerController;
+import presenters.ClusterViewerController;
 import javafx.application.Application;
 
 import javafx.stage.Stage;

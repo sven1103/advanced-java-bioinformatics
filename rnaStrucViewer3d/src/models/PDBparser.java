@@ -44,16 +44,17 @@ public class PDBparser {
 
                 String atomName = line.substring(PDBcolumns.ATOM_NAME_START, PDBcolumns.ATOM_NAME_END+1);
                 String residueName = line.substring(PDBcolumns.RESIDUE_NAME_START, PDBcolumns.RESIDUE_NAME_END+1);
+                String residuePos = line.substring(PDBcolumns.RESIDUE_SEQ_NUMBER_START, PDBcolumns.RESIDUE_SEQ_NUMBER_END+1);
                 String xCoord = line.substring(PDBcolumns.ATOM_X_START, PDBcolumns.ATOM_X_END+1);
                 String yCoord = line.substring(PDBcolumns.ATOM_Y_START, PDBcolumns.ATOM_Y_END+1);
                 String zCoord = line.substring(PDBcolumns.ATOM_Z_START, PDBcolumns.ATOM_Z_END+1);
 
                 atom.setAtomName(removeWhiteSpace(atomName));
                 atom.setBaseType(evaluateBaseType(residueName));
+                atom.setResiduePos(Integer.parseInt(removeWhiteSpace(residuePos)));
                 atom.setCoords(new float[]{makeFloat(xCoord),
                                            makeFloat(yCoord),
                                            makeFloat(zCoord)});
-                System.out.println(atom.toString());
                 atomList.add(atom);
             }
 

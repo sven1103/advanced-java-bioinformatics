@@ -61,6 +61,8 @@ public class Atom {
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.residuePos);
+        stringBuilder.append(":");
         stringBuilder.append(this.atomName);
         stringBuilder.append(":");
         stringBuilder.append(this.baseType);

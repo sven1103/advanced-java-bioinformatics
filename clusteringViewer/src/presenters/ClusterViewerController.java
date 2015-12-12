@@ -1,4 +1,4 @@
-package controllers;
+package presenters;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
