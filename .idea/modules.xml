@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/assignment8/assignment8.iml" filepath="$PROJECT_DIR$/assignment8/assignment8.iml" />
       <module fileurl="file://$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" filepath="$PROJECT_DIR$/clusteringViewer/clusteringViewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/rnaStrucViewer/rnaStrucViewer.iml" filepath="$PROJECT_DIR$/rnaStrucViewer/rnaStrucViewer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rnaStrucViewer3d/rnaStrucViewer3d.iml" filepath="$PROJECT_DIR$/rnaStrucViewer3d/rnaStrucViewer3d.iml" />
     </modules>
   </component>
 </project>
