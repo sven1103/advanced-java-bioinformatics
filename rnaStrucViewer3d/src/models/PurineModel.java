@@ -10,17 +10,19 @@ import javafx.scene.shape.TriangleMesh;
 import java.util.Arrays;
 
 /**
- * Created by sven on 12/12/15.
+ * Created by svenfillinger on 13.12.15.
  */
-public class RiboseModel {
+public abstract class PurineModel {
 
     private MeshView meshView;
 
-    private final int NUMBER_ATOMS = 15;
+    private final int NUMBER_ATOMS = 27;
 
     private float[] atomCoords = new float[NUMBER_ATOMS];
 
     BooleanProperty modelFilledComplete = new SimpleBooleanProperty(false);
+
+    protected PhongMaterial material = new PhongMaterial(Color.GRAY);
 
 
     private float[] texCoords = new float[]
@@ -32,27 +34,38 @@ public class RiboseModel {
 
     private int[] faces = new int[]
             {
-                    3, 0, 2, 1, 4, 2,  // font face triangle 1
-                    3, 0, 4, 2, 2, 1,  // back face triangle 1
-                    2, 0, 1, 1, 4, 2,  // font face triangle 2
-                    2, 0, 4, 2, 1, 1,  // back face triangle 2
-                    1, 0, 0, 1, 4, 2,  // font face triangle 3
-                    1, 0, 4, 2, 0, 1   // back face triangle 3
-        };
+                    7,0,4,1,6,2,
+                    7,0,6,2,4,1,
+                    7,0,8,1,4,2,
+                    7,0,4,2,8,1,
+                    8,0,3,1,4,2,
+                    8,0,4,2,3,1,
+                    4,0,0,1,5,2,
+                    4,0,5,2,0,1,
+                    4,0,3,1,0,2,
+                    4,0,0,2,3,1,
+                    3,0,2,1,0,2,
+                    3,0,0,2,2,1,
+                    2,0,1,1,0,2,
+                    2,0,0,2,1,1
+            };
 
 
-    public RiboseModel(){
+    public PurineModel(){
 
     }
 
-    public RiboseModel setAtomCoords(Atom atom){
-        if(!AtomMapping.RIBOSE_MAPPING.containsKey(atom.getAtomName())){
+    public abstract PurineModel setAtomCoords(Atom atom);
+
+
+    protected void makeAtomCoords(Atom atom){
+        if(!AtomMapping.PURINE_MAPPING.containsKey(atom.getAtomName())){
+            // DEbugging
         } else{
-            int position = AtomMapping.RIBOSE_MAPPING.get(atom.getAtomName());
+            int position = AtomMapping.PURINE_MAPPING.get(atom.getAtomName());
             System.arraycopy(atom.getCoords(), 0, this.atomCoords, position, 3);
             evaluateModel();
         }
-        return this;
     }
 
 
@@ -68,24 +81,29 @@ public class RiboseModel {
     }
 
 
+
+
+
     /**
      * Make the MeshView of the ribose molecule
      * @return The MeshView representation of ribose
      */
-    public RiboseModel makeRiboseMesh(){
+    public PurineModel makeMesh(){
         System.err.println(Arrays.toString(atomCoords));
-
 
         TriangleMesh mesh = new TriangleMesh();
 
         mesh.getPoints().addAll(atomCoords);
         mesh.getTexCoords().addAll(texCoords);
         mesh.getFaces().addAll(faces);
-        mesh.getFaceSmoothingGroups().addAll(0, 1, 0, 1, 0, 1);
+        mesh.getFaceSmoothingGroups().addAll(0, 1, 0, 1,
+                                             0, 1, 0, 1,
+                                             0, 1, 0, 1,
+                                             0, 1);
 
         MeshView meshView = new MeshView();
         meshView.setMesh(mesh);
-        meshView.setMaterial(new PhongMaterial(Color.LIGHTSKYBLUE));
+        meshView.setMaterial(material);
 
 
         //sugarMeshView.setTranslateZ();
@@ -94,16 +112,12 @@ public class RiboseModel {
     }
 
 
-    public MeshView getRibose(){
+    public MeshView getBase(){
         return this.meshView;
     }
 
     public void resetCoords(){
         this.atomCoords = new float[NUMBER_ATOMS];
     }
-
-
-
-
 
 }

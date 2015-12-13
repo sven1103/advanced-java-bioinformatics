@@ -42,23 +42,37 @@ public class RnaStrucViewer3dView {
     }
 
     private void initView(){
+
+        /*
+        Make the scen
+         */
         scene = new Scene(structures, 800, 600, true, SceneAntialiasing.BALANCED);
+
+        /*
+        Make a test box for debuggin
+         *//*
         testBox = new Box(100,100,100);
-        testBox.setMaterial(new PhongMaterial(Color.BURLYWOOD));
+        testBox.setMaterial(new PhongMaterial(Color.LIGHTSKYBLUE));
         testBox.setDrawMode(DrawMode.FILL);
 
         structures.getChildren().addAll(testBox);
-
+*/
+        /*
+        Set the camera for the scene
+         */
         camera = new PerspectiveCamera(false);
         camera.setTranslateX(-scene.getWidth()/2);
         camera.setTranslateY(-scene.getHeight()/2);
-        camera.setTranslateZ(-250);
+        camera.setTranslateZ(50);
         camera.setFarClip(10000);
-        camera.setNearClip(0.1);
+        camera.setNearClip(0.001);
         camera.setFieldOfView(45);
 
         scene.setCamera(camera);
 
+        /*
+        Set the rotation axis
+         */
         ry = new Rotate(0, Rotate.Y_AXIS);
         rx = new Rotate(0, Rotate.X_AXIS);
 
