@@ -119,7 +119,6 @@ public class RnaStrucViewer3dModel {
             if(newValue){
                 bonds.add(baseSugarBond.createConnection(0.02));
                 baseSugarBond.resetBond();
-                System.out.println("Full Bond set");
             }
         });
 
@@ -129,7 +128,6 @@ public class RnaStrucViewer3dModel {
             riboseMolecule.setAtomCoords(atom);
 
             if(atom.getAtomName().equals("C1'")){
-                System.err.println("C1' found!");
                 baseSugarBond.setStartAtom(atom.getCoords());
             }
 
@@ -160,8 +158,6 @@ public class RnaStrucViewer3dModel {
                     break;
             }
         }
-
-
 
      return this;
     }

@@ -73,7 +73,6 @@ public class RiboseModel {
      * @return The MeshView representation of ribose
      */
     public RiboseModel makeRiboseMesh(){
-        System.err.println(Arrays.toString(atomCoords));
 
 
         TriangleMesh mesh = new TriangleMesh();

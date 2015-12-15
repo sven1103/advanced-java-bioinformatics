@@ -68,6 +68,9 @@ public class PDBparser {
 
                 // Check if line is of record type 'ATOM'
                 if( !line.startsWith("ATOM")){
+                    if (line.startsWith("TER")){
+                        break;
+                    }
                     continue;
                 }
 
@@ -133,7 +136,6 @@ public class PDBparser {
         yAverage = y.stream().reduce(0.f, (a, b) -> (a + b)) / y.size();
         zAverage = z.stream().reduce(0.f, (a, b) -> (a + b)) / z.size();
 
-        System.out.println(xAverage + ":" + yAverage + ":" + zAverage);
 
         for(Atom atom : atomList){
             float[] coordsToAdjust = atom.getCoords();

@@ -86,7 +86,6 @@ public abstract class PurineModel {
      * @return The MeshView representation of ribose
      */
     public PurineModel makeMesh(){
-        System.err.println(Arrays.toString(atomCoords));
 
         TriangleMesh mesh = new TriangleMesh();
 
