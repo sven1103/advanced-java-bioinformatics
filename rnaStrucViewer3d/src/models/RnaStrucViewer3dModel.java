@@ -19,6 +19,7 @@ public class RnaStrucViewer3dModel {
 
     private List<MeshView> baseList = new ArrayList<>();
 
+
     public RnaStrucViewer3dModel(){
 
     }
@@ -65,6 +66,8 @@ public class RnaStrucViewer3dModel {
         Guanine guanine = new Guanine();
 
 
+
+
         guanine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(guanine.makeMesh().getBase());
@@ -90,7 +93,6 @@ public class RnaStrucViewer3dModel {
         });
 
 
-
         adenine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(adenine.makeMesh().getBase());
@@ -111,11 +113,20 @@ public class RnaStrucViewer3dModel {
 
         for(Atom atom : atomList){
             riboseMolecule.setAtomCoords(atom);
-            uracil.setAtomCoords(atom);
-            adenine.setAtomCoords(atom);
-            cytosine.setAtomCoords(atom);
-            guanine.setAtomCoords(atom);
 
+            switch(atom.getBaseType()){
+                case A:
+                    adenine.setAtomCoords(atom);
+                    break;
+                case C:
+                    cytosine.setAtomCoords(atom);
+                    break;
+                case G:
+                    guanine.setAtomCoords(atom);
+                    break;
+                case U:
+                    uracil.setAtomCoords(atom);
+            }
         }
 
         System.err.println(riboseMolecule.modelFilledComplete.get());

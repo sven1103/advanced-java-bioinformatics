@@ -22,6 +22,13 @@ public class PDBparser {
     private List<Atom> atomList;
 
     /**
+     * Will store phosphate atoms only
+     * from which the geometrical center of
+     * the molecule will be computed
+     */
+    private List<Atom> atomPhosphateList;
+
+    /**
      * Make the constructor private
      */
     private PDBparser(){}
@@ -50,6 +57,7 @@ public class PDBparser {
 
         atomList = new ArrayList<>();   // Will store the atoms
 
+        atomPhosphateList = new ArrayList<>();  // Will store the phosphate atoms only
         /*
         Read in the pdb file
          */
@@ -57,10 +65,9 @@ public class PDBparser {
             String line;
 
             while((line = bufferedReader.readLine()) != null){
-                // Get the record name (i.e. 'ATOM')
-                String recordName = line.substring(PDBcolumns.RECORD_NAME_START, PDBcolumns.RECORD_NAME_END+1);
+
                 // Check if line is of record type 'ATOM'
-                if( !removeWhiteSpace(recordName.toLowerCase()).equals("atom")){
+                if( !line.startsWith("ATOM")){
                     continue;
                 }
 
@@ -85,6 +92,13 @@ public class PDBparser {
                 atom.setCoords(new float[]{makeFloat(xCoord),
                                            makeFloat(yCoord),
                                            makeFloat(zCoord)});
+                /*
+                Adds the atom to the phosphate list, for
+                calculation of the geometric center
+                 */
+                if(atom.getAtomName().equals("P")){
+                    atomPhosphateList.add(atom);
+                }
                 // Add the atom to the list
                 atomList.add(atom);
             }
@@ -92,8 +106,51 @@ public class PDBparser {
         } catch (IOException e){
             System.err.println("Could not read from file: " + pdbFile);
         }
+
+        centerAtoms();
+
         return this;
     }
+
+
+    public void centerAtoms(){
+
+        List<Float> x = new ArrayList<>();
+        List<Float> y = new ArrayList<>();
+        List<Float> z = new ArrayList<>();
+        float xAverage = 0f;
+        float yAverage = 0f;
+        float zAverage = 0f;
+
+        for(Atom atom : atomPhosphateList){
+            float[] coords = atom.getCoords();
+            x.add(coords[0]);
+            y.add(coords[1]);
+            z.add(coords[2]);
+        }
+
+        xAverage = x.stream().reduce(0.f, (a, b) -> (a + b)) / x.size();
+        yAverage = y.stream().reduce(0.f, (a, b) -> (a + b)) / y.size();
+        zAverage = z.stream().reduce(0.f, (a, b) -> (a + b)) / z.size();
+
+        System.out.println(xAverage + ":" + yAverage + ":" + zAverage);
+
+        for(Atom atom : atomList){
+            float[] coordsToAdjust = atom.getCoords();
+            coordsToAdjust[0] -= xAverage;
+            coordsToAdjust[1] -= yAverage;
+            coordsToAdjust[2] -= zAverage;
+
+            try{
+                atom.setCoords(coordsToAdjust);
+            } catch (Exception e){
+                System.err.println("Could not center the atom");
+            }
+
+        }
+
+    }
+
 
     /**
      * Aquire the atom list
@@ -160,5 +217,9 @@ public class PDBparser {
                 baseType = BaseType.N;
         }
         return baseType;
+    }
+
+    interface FloatOperation {
+        float operation(float a, float b);
     }
 }
