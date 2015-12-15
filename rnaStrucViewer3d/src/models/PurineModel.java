@@ -81,9 +81,6 @@ public abstract class PurineModel {
     }
 
 
-
-
-
     /**
      * Make the MeshView of the ribose molecule
      * @return The MeshView representation of ribose

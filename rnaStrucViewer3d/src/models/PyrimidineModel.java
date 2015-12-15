@@ -54,8 +54,7 @@ abstract class PyrimidineModel {
 
         protected void makeAtomCoords(Atom atom){
             if(!AtomMapping.PYRIMIDINE_MAPPING.containsKey(atom.getAtomName())){
-                System.err.println("This atom is not located in uracil.");
-                System.err.println(atom.toString());
+
             } else{
                 int position = AtomMapping.PYRIMIDINE_MAPPING.get(atom.getAtomName());
                 System.arraycopy(atom.getCoords(), 0, this.atomCoords, position, 3);
@@ -81,7 +80,6 @@ abstract class PyrimidineModel {
          * @return The MeshView representation of ribose
          */
         public PyrimidineModel makeMesh(){
-            System.err.println(Arrays.toString(atomCoords));
 
             TriangleMesh mesh = new TriangleMesh();
 

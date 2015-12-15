@@ -17,8 +17,6 @@ public class Cytosin extends PyrimidineModel {
     @Override
     public PyrimidineModel setAtomCoords(Atom atom) {
 
-        System.out.println("CYTOSINE");
-        System.out.println(atom.toString());
         if(!atom.getBaseType().equals(BaseType.C)){
             return this;
         } else {
