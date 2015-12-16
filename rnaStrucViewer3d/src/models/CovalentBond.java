@@ -63,6 +63,12 @@ public class CovalentBond {
         this.fullBondSet.setValue(false);
     }
 
+
+    /**
+     * Code ref: http://netzwerg.ch/blog/2015/03/22/javafx-3d-line/
+     * @param radius the radius of the cylinder
+     * @return the correct scaled and rotated cylinder
+     */
     public Cylinder createConnection(double radius) {
         if(startAtom != null && endAtom != null){
             Point3D yAxis = new Point3D(0, 1, 0);
