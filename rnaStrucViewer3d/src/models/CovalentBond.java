@@ -26,7 +26,7 @@ public class CovalentBond {
 
     BooleanProperty fullBondSet = new SimpleBooleanProperty(false);
 
-    private final Color COLOR = Color.BLACK;
+    private Color color = Color.BLACK;
 
     public CovalentBond(){
     }
@@ -47,6 +47,10 @@ public class CovalentBond {
     public void setEndAtom(float[] endAtom) {
         this.endAtom = new Point3D(endAtom[0], endAtom[1], endAtom[2]);
         checkAllPointsSet();
+    }
+
+    public void setColor(Color color){
+        this.color = color;
     }
 
     private void checkAllPointsSet(){
@@ -85,7 +89,7 @@ public class CovalentBond {
             Cylinder line = new Cylinder(radius, height);
 
             line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
-            line.setMaterial(new PhongMaterial(COLOR));
+            line.setMaterial(new PhongMaterial(color));
 
             this.endAtom = null;
             this.startAtom = null;

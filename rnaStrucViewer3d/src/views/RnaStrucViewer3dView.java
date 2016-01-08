@@ -1,12 +1,8 @@
 package views;
 
 import javafx.scene.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.DrawMode;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Window;
 
 /**
  * Created by sven on 12/12/15.
@@ -41,22 +37,17 @@ public class RnaStrucViewer3dView {
         return instance;
     }
 
+
+    /**
+     * Initializes the view
+     */
     private void initView(){
 
         /*
-        Make the scen
+        Make the scene
          */
         scene = new Scene(structures, 800, 600, true, SceneAntialiasing.BALANCED);
 
-        /*
-        Make a test box for debuggin
-         *//*
-        testBox = new Box(100,100,100);
-        testBox.setMaterial(new PhongMaterial(Color.LIGHTSKYBLUE));
-        testBox.setDrawMode(DrawMode.FILL);
-
-        structures.getChildren().addAll(testBox);
-*/
         /*
         Set the camera for the scene
          */

@@ -50,11 +50,9 @@ public class RnaStrucViewer3dMain extends Application{
 
         model.setAtomList(atomList).parseRiboseElements();
 
-        view.structures.getChildren().addAll(model.getRiboseGroup(), model.getBaseGroup(), model.getBoundsGroup());
+        view.structures.getChildren().addAll(model.getRiboseGroup(), model.getBaseGroup(),
+                model.getBoundsGroup(), model.getPhosphateGroup());
 
-        System.out.println(view.structures.getTranslateX());
-        System.out.println(view.structures.getTranslateY());
-        System.out.println(view.structures.getTranslateZ());
 
         primaryStage.show();
     }

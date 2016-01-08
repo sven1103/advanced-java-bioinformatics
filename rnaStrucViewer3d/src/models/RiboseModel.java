@@ -7,7 +7,6 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 
-import java.util.Arrays;
 
 /**
  * Created by sven on 12/12/15.
