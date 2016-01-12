@@ -88,6 +88,7 @@ public class RiboseModel {
 
         //sugarMeshView.setTranslateZ();
         this.meshView = meshView;
+
         return this;
     }
 

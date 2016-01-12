@@ -2,11 +2,13 @@ package models;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 
+import javax.tools.Tool;
 import java.util.Arrays;
 
 /**
@@ -52,7 +54,6 @@ public abstract class PurineModel {
 
 
     public PurineModel(){
-
     }
 
     public abstract PurineModel setAtomCoords(Atom atom);

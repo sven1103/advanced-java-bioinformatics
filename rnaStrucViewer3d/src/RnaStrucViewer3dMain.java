@@ -32,28 +32,17 @@ public class RnaStrucViewer3dMain extends Application{
 
         List<String> args = getParameters().getRaw();
 
-        PDBparser parser = PDBparser.getInstance();
-
-        List<Atom> atomList = parser.parsePDB(args.get(0)).getAtomList();
-
-        RiboseModel riboseModel = new RiboseModel();
-
-        atomList.forEach((Atom atom) -> riboseModel.setAtomCoords(atom));
-
-
         RnaStrucViewer3dView view = RnaStrucViewer3dView.getInstance();
-        RnaStrucViewer3dPresenter presenter = new RnaStrucViewer3dPresenter(view);
         RnaStrucViewer3dModel model = new RnaStrucViewer3dModel();
+        RnaStrucViewer3dPresenter presenter = new RnaStrucViewer3dPresenter(view, primaryStage, model);
+
+        primaryStage.setScene(view.totalScene);
 
 
-        primaryStage.setScene(view.scene);
-
-        model.setAtomList(atomList).parseRiboseElements();
-
-        view.structures.getChildren().addAll(model.getRiboseGroup(), model.getBaseGroup(),
-                model.getBoundsGroup(), model.getPhosphateGroup());
+/*
 
 
+*/
         primaryStage.show();
     }
 }

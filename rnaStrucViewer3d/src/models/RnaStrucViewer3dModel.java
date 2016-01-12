@@ -20,9 +20,13 @@ public class RnaStrucViewer3dModel {
 
     private List<MeshView> baseList = new ArrayList<>();
 
+    private List<Group> nucleotideList = new ArrayList<>();
+
     private List<Cylinder> bondList = new ArrayList<>();
 
     private List<Sphere> phosphateList = new ArrayList<>();
+
+    private Atom currentAtom = new Atom();
 
     /**
      * Nullary constructor
@@ -93,6 +97,13 @@ public class RnaStrucViewer3dModel {
         return phosphateGroup;
     }
 
+    public Group getNucleotideGroup(){
+        Group nucleotideGroup = new Group();
+        nucleotideGroup.getChildren().addAll(nucleotideList);
+
+        return nucleotideGroup;
+    }
+
     /**
      * Iterates through the atom list and builds the sugar molecules
      * @return this
@@ -103,6 +114,7 @@ public class RnaStrucViewer3dModel {
         Adenine adenine = new Adenine();
         Cytosin cytosine = new Cytosin();
         Guanine guanine = new Guanine();
+        Nucleotide nucleotide = new Nucleotide();
 
         Atom lastPhosphateAtom = new Atom();
 
@@ -119,6 +131,7 @@ public class RnaStrucViewer3dModel {
         guanine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(guanine.makeMesh().getBase());
+                nucleotide.setBase(guanine.makeMesh().getBase());
                 guanine.resetCoords();
             }
         });
@@ -126,6 +139,7 @@ public class RnaStrucViewer3dModel {
         uracil.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(uracil.makeMesh().getBase());
+                nucleotide.setBase(uracil.makeMesh().getBase());
                 uracil.resetCoords();
             }
         });
@@ -133,6 +147,7 @@ public class RnaStrucViewer3dModel {
         cytosine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(cytosine.makeMesh().getBase());
+                nucleotide.setBase(cytosine.makeMesh().getBase());
                 cytosine.resetCoords();
             }
         });
@@ -140,6 +155,7 @@ public class RnaStrucViewer3dModel {
         adenine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(adenine.makeMesh().getBase());
+                nucleotide.setBase(adenine.makeMesh().getBase());
                 adenine.resetCoords();
             }
         });
@@ -147,6 +163,7 @@ public class RnaStrucViewer3dModel {
         riboseMolecule.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 riboseList.add(riboseMolecule.makeRiboseMesh().getRibose());
+                nucleotide.setRibose(riboseMolecule.makeRiboseMesh().getRibose());
                 riboseMolecule.resetCoords();
             }
         });
@@ -179,11 +196,21 @@ public class RnaStrucViewer3dModel {
             }
         });
 
+        nucleotide.modelFilled.addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                nucleotide.setBaseType(this.currentAtom.getBaseType());
+                nucleotide.setResiduePosition(this.currentAtom.getResiduePos());
+                nucleotideList.add(nucleotide.getNucleotide());
+                nucleotide.reset();
+            }
+        });
+
 
         /*
         Iterate through the atom list and build the bases, sugars, bonds and phosphates
          */
         for(Atom atom : atomList){
+            currentAtom = atom;
             riboseMolecule.setAtomCoords(atom);
 
             if(atom.getAtomName().equals("C1'")){
