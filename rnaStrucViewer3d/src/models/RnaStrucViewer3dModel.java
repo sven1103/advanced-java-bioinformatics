@@ -184,14 +184,14 @@ public class RnaStrucViewer3dModel {
 
         threePrimeOP.fullBondSet.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                bondList.add(threePrimeOP.createConnection(0.02));
+                bondList.add(threePrimeOP.createConnection(0.03));
                 threePrimeOP.resetBond();
             }
         });
 
         fivePrimeOP.fullBondSet.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                bondList.add(fivePrimeOP.createConnection(0.02));
+                bondList.add(fivePrimeOP.createConnection(0.03));
                 fivePrimeOP.resetBond();
             }
         });

@@ -6,6 +6,7 @@ import models.Atom;
 import models.PDBparser;
 import models.RiboseModel;
 import models.RnaStrucViewer3dModel;
+import system.PDBparseException;
 import views.RnaStrucViewer3dView;
 
 import java.io.File;
@@ -23,13 +24,13 @@ public class RnaStrucViewer3dPresenter {
     double mouseDeltaX;
     double mouseDeltaY;
 
-    PDBparser parser;
-
     List<Atom> atomList;
 
-    RiboseModel riboseModel;
-
     RnaStrucViewer3dModel model;
+
+    String helpMessage = String.format("Hold SHIFT for zooming in/out\n" +
+            "Hold CTRL for moving the molecule\n" +
+            "Use the MOUSE + LEFTCLICK for rotation!");
 
     /**
      * The 3D-view
@@ -64,10 +65,12 @@ public class RnaStrucViewer3dPresenter {
          */
         view.totalScene.widthProperty().addListener((observable, oldValue, newValue) -> {
             view.camera.setTranslateX(-newValue.doubleValue()/2);
+            view.update();
         });
 
         view.totalScene.heightProperty().addListener((observable, oldValue, newValue) -> {
             view.camera.setTranslateY(-newValue.doubleValue()/2);
+            view.update();
         });
 
 
@@ -89,7 +92,7 @@ public class RnaStrucViewer3dPresenter {
                 view.camera.setTranslateZ(view.camera.getTranslateZ() + mouseDeltaY);
             } else if(event.isControlDown()) {
                 view.structures.setTranslateX(view.structures.getTranslateX() + mouseDeltaX);
-                view.structures.setTranslateY(view.structures.getTranslateY() - mouseDeltaY);
+                view.structures.setTranslateY(view.structures.getTranslateY() + mouseDeltaY);
             } else{
                 view.ry.setAngle(view.ry.getAngle() - mouseDeltaX);
                 view.rx.setAngle(view.rx.getAngle() - mouseDeltaY);
@@ -98,35 +101,57 @@ public class RnaStrucViewer3dPresenter {
         view.openFile.setOnAction((value) -> openFile());
     }
 
+
+    /**
+     * Opens a PDB-file from the file-chooser menu
+     */
     private void openFile(){
-
+        /*
+        Filechooser settings
+         */
+        File pdbFile;
         view.fileChooser = new FileChooser();
-
         view.fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("PDB (pdb structure file)", "*.pdb"),
                 new FileChooser.ExtensionFilter("All files", "*.*"));
-
+        // Set default directory
         File defaultDirectory = new File("/home/sven/Downloads");
 
         if(defaultDirectory.exists())
             view.fileChooser.setInitialDirectory(defaultDirectory);
 
+        // Open the dialog
+        pdbFile = view.fileChooser.showOpenDialog(this.stage);
 
-        File pdbFile = view.fileChooser.showOpenDialog(this.stage);
-
+        // Parse pdb, if file is chosen
         if(pdbFile != null){
+            // If a pdb file is already loaded, reset the model
+            if(!model.getBaseGroup().getChildren().isEmpty())
+                    model = new RnaStrucViewer3dModel();
+
             PDBparser parser = PDBparser.getInstance();
 
-            List<Atom> atomList = parser.parsePDB(pdbFile.getAbsolutePath()).getAtomList();
+            view.sendMessage("Parsing file: " + pdbFile.getName());
 
+            try{
+                atomList = parser.parsePDB(pdbFile.getAbsolutePath()).getAtomList();
+            } catch (PDBparseException e){
+                view.sendMessage("[ERROR]: Could not parse " + pdbFile.getName());
+            }
+
+            view.sendMessage(helpMessage);
+
+            // TODO: Rename to NucleotideModel
             RiboseModel riboseModel = new RiboseModel();
 
             atomList.forEach((Atom atom) -> riboseModel.setAtomCoords(atom));
-
             model.setAtomList(atomList).parseRiboseElements();
 
+            view.structures.getChildren().clear();
             view.structures.getChildren().addAll(model.getNucleotideGroup(),
                     model.getBoundsGroup(), model.getPhosphateGroup());
+
+            view.update();
         }
 
     }

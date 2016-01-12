@@ -1,5 +1,8 @@
 package models;
 
+
+import system.PDBparseException;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,7 +40,7 @@ public class PDBparser {
      * Singleton getInstance()
      * @return PDPparser
      */
-    public static PDBparser getInstance(){
+    public static PDBparser getInstance() {
         if(instance == null){
             synchronized (PDBparser.class){
                 if(instance == null) {
@@ -53,7 +56,7 @@ public class PDBparser {
      * @param pdbFile The path to the pdb-file
      * @return this
      */
-    public PDBparser parsePDB(String pdbFile){
+    public PDBparser parsePDB(String pdbFile) throws PDBparseException{
 
         atomList = new ArrayList<>();   // Will store the atoms
 
@@ -107,7 +110,11 @@ public class PDBparser {
             }
 
         } catch (IOException e){
-            System.err.println("Could not read from file: " + pdbFile);
+            throw new PDBparseException(e);
+        }
+
+        if(atomList.isEmpty()){
+            throw new PDBparseException();
         }
 
         centerAtoms();

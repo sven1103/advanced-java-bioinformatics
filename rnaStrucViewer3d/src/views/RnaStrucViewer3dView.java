@@ -4,9 +4,10 @@ import javafx.scene.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 
@@ -14,6 +15,10 @@ import javafx.stage.FileChooser;
  * Created by sven on 12/12/15.
  */
 public class RnaStrucViewer3dView {
+
+    public StackPane finalView;
+
+    public TextArea messageScreen;
 
     public static volatile RnaStrucViewer3dView instance;
 
@@ -26,8 +31,6 @@ public class RnaStrucViewer3dView {
     public Rotate rx;
 
     public Group structures = new Group();
-
-    public Group totalView = new Group();
 
     public PerspectiveCamera camera;
 
@@ -62,6 +65,9 @@ public class RnaStrucViewer3dView {
         /*
         Make the scene
          */
+
+        finalView = new StackPane();
+
         menuBar = new MenuBar();
 
         menu = new Menu("File");
@@ -72,13 +78,29 @@ public class RnaStrucViewer3dView {
 
         menuBar.getMenus().addAll(menu);
 
-        scene3d = new SubScene(structures, 800, 600, true, SceneAntialiasing.BALANCED);
+        scene3d = new SubScene(structures, 600, 600, true, SceneAntialiasing.BALANCED);
+        scene3d.setFill(Color.WHITE);
 
-        VBox pane = new VBox();
+        messageScreen = new TextArea("[Welcome] Ania to RNAView3D :)" +
+                                     "\n------------------------------\n" +
+                                     "Open a pdb-file via FILE>OPEN");
 
-        pane.getChildren().addAll(menuBar, scene3d);
+        messageScreen.setMinHeight(20);
 
-        totalScene = new Scene(pane, 800, 600);
+        messageScreen.setStyle("-fx-font-family: monospace");
+
+        this.messageScreen.editableProperty().setValue(false);
+
+
+        BorderPane mainView = new BorderPane();
+
+        mainView.setTop(menuBar);
+
+        mainView.setBottom(messageScreen);
+
+        finalView.getChildren().addAll(scene3d, mainView);
+
+        totalScene = new Scene(finalView, 800, 600);
 
         /*
         Set the camera for the scene
@@ -103,6 +125,34 @@ public class RnaStrucViewer3dView {
         ry.setAngle(10);
         rx.setAngle(10);
 
+    }
+
+    public void update(){
+        double deltaX;
+        double zoomFactorX;
+
+        double finalTranslateZ;
+
+        double halfMoleculeWidth = this.structures.getLayoutBounds().getWidth() / 2.0;
+
+        double halfFovAngle = this.camera.getFieldOfView() / 2.0;
+
+        double computedCamerDistance = halfMoleculeWidth / (Math.tan(Math.toRadians(halfFovAngle)));
+
+        double ratio = this.scene3d.getWidth() / this.scene3d.getHeight();
+
+        deltaX = this.structures.getLayoutBounds().getWidth();
+
+        zoomFactorX = this.scene3d.getWidth() / deltaX;
+
+        finalTranslateZ = computedCamerDistance * zoomFactorX + (scene3d.getHeight() - zoomFactorX*deltaX) - ratio*100 - 10*ratio;
+
+        this.camera.setTranslateZ(finalTranslateZ);
+    }
+
+    public void sendMessage(String message){
+        this.messageScreen.appendText("\n");
+        this.messageScreen.appendText(message);
     }
 
 
