@@ -26,7 +26,7 @@ public class CovalentBond {
 
     BooleanProperty fullBondSet = new SimpleBooleanProperty(false);
 
-    private Color color = Color.WHITE;
+    private Color color = Color.BLACK;
 
     public CovalentBond(){
     }
