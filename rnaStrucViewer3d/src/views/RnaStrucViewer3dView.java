@@ -16,6 +16,10 @@ import javafx.stage.FileChooser;
  */
 public class RnaStrucViewer3dView {
 
+    public final double INIT_SCENE_WIDTH = 800;
+
+    public final double INIT_SCENE_HEIGHT = 600;
+
     public StackPane finalView;
 
     public TextArea messageScreen;
@@ -78,7 +82,7 @@ public class RnaStrucViewer3dView {
 
         menuBar.getMenus().addAll(menu);
 
-        scene3d = new SubScene(structures, 600, 600, true, SceneAntialiasing.BALANCED);
+        scene3d = new SubScene(structures, INIT_SCENE_WIDTH, INIT_SCENE_HEIGHT, true, SceneAntialiasing.BALANCED);
         scene3d.setFill(Color.WHITE);
 
         messageScreen = new TextArea("[Welcome] Ania to RNAView3D :)" +
@@ -100,7 +104,6 @@ public class RnaStrucViewer3dView {
 
         finalView.getChildren().addAll(scene3d, mainView);
 
-        totalScene = new Scene(finalView, 800, 600);
 
         /*
         Set the camera for the scene
@@ -114,6 +117,9 @@ public class RnaStrucViewer3dView {
         camera.setFieldOfView(45);
 
         scene3d.setCamera(camera);
+
+        totalScene = new Scene(finalView, INIT_SCENE_WIDTH, INIT_SCENE_HEIGHT);
+
 
         /*
         Set the rotation axis
