@@ -20,7 +20,7 @@ public class RnaStrucViewer3dModel {
 
     private List<MeshView> baseList = new ArrayList<>();
 
-    private List<Group> nucleotideList = new ArrayList<>();
+    private List<Nucleotide> nucleotideList = new ArrayList<>();
 
     private List<Cylinder> bondList = new ArrayList<>();
 
@@ -99,10 +99,15 @@ public class RnaStrucViewer3dModel {
 
     public Group getNucleotideGroup(){
         Group nucleotideGroup = new Group();
-        nucleotideGroup.getChildren().addAll(nucleotideList);
+
+        for(Nucleotide nucleotide : nucleotideList){
+            nucleotideGroup.getChildren().addAll(nucleotide.getNucleotide());
+        }
 
         return nucleotideGroup;
     }
+
+    public List<Nucleotide> getNucleotideList(){return this.nucleotideList;}
 
     /**
      * Iterates through the atom list and builds the sugar molecules
@@ -131,7 +136,12 @@ public class RnaStrucViewer3dModel {
         guanine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(guanine.makeMesh().getBase());
-                nucleotide.setBase(guanine.makeMesh().getBase());
+                try{
+                    nucleotide.setBase((Guanine) guanine.clone());
+                } catch (CloneNotSupportedException e){
+                    System.err.println("Cannot clone this guanine object");
+                }
+                System.err.println("G filled");
                 guanine.resetCoords();
             }
         });
@@ -139,7 +149,12 @@ public class RnaStrucViewer3dModel {
         uracil.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(uracil.makeMesh().getBase());
-                nucleotide.setBase(uracil.makeMesh().getBase());
+                try{
+                    nucleotide.setBase((Uracil) uracil.clone());
+                } catch (CloneNotSupportedException e){
+                    System.err.println("Cannot clone this uracil object");
+                }
+                System.err.println("U filled");
                 uracil.resetCoords();
             }
         });
@@ -147,7 +162,12 @@ public class RnaStrucViewer3dModel {
         cytosine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(cytosine.makeMesh().getBase());
-                nucleotide.setBase(cytosine.makeMesh().getBase());
+                try{
+                    nucleotide.setBase((Cytosin) cytosine.clone());
+                } catch (CloneNotSupportedException e){
+                    System.err.println("Cannot clone this cytosine object");
+                }
+                System.err.println("C filled");
                 cytosine.resetCoords();
             }
         });
@@ -155,7 +175,12 @@ public class RnaStrucViewer3dModel {
         adenine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
                 baseList.add(adenine.makeMesh().getBase());
-                nucleotide.setBase(adenine.makeMesh().getBase());
+                try{
+                    nucleotide.setBase((Adenine)adenine.clone());
+                } catch (CloneNotSupportedException e){
+                    System.err.println("Cannot clone this adenine object");
+                }
+                System.err.println("A filled");
                 adenine.resetCoords();
             }
         });
@@ -200,7 +225,11 @@ public class RnaStrucViewer3dModel {
             if(newValue){
                 nucleotide.setBaseType(this.currentAtom.getBaseType());
                 nucleotide.setResiduePosition(this.currentAtom.getResiduePos());
-                nucleotideList.add(nucleotide.getNucleotide());
+                try {
+                    nucleotideList.add((Nucleotide) nucleotide.clone());
+                } catch(CloneNotSupportedException e){
+                    System.err.println("Clonable not sopported");
+                }
                 nucleotide.reset();
             }
         });

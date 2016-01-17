@@ -5,19 +5,18 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
-import javafx.scene.shape.MeshView;
 
 
 /**
  * Created by sven on 1/12/16.
  */
-public class Nucleotide {
+public class Nucleotide implements Cloneable{
 
     private BaseType baseType;
 
     private Node ribose;
 
-    private Node base;
+    private BaseModel base;
 
     private Group nucleotide;
 
@@ -42,10 +41,14 @@ public class Nucleotide {
         return this;
     }
 
-    public Nucleotide setBase(Node base){
+    public Nucleotide setBase(BaseModel base){
         this.base = base;
         evaluateModel();
         return this;
+    }
+
+    public BaseModel getBase(){
+        return this.base;
     }
 
     public Nucleotide setResiduePosition(int pos){
@@ -71,7 +74,7 @@ public class Nucleotide {
 
     public Group getNucleotide(){
         if(ribose != null && base != null){
-            this.nucleotide.getChildren().addAll(ribose, base);
+            this.nucleotide.getChildren().addAll(ribose, base.getBase());
         }
 
         Tooltip tooltip = new Tooltip(this.baseType.toString() + this.residuePosition);
@@ -79,5 +82,36 @@ public class Nucleotide {
         return nucleotide;
     }
 
+    public BaseType getBaseType() {
+        return baseType;
+    }
 
+    public Node getRibose() {
+        return ribose;
+    }
+
+    public void setNucleotide(Group nucleotide) {
+        this.nucleotide = nucleotide;
+    }
+
+    public boolean getModelFilled() {
+        return modelFilled.get();
+    }
+
+    public BooleanProperty modelFilledProperty() {
+        return modelFilled;
+    }
+
+    public void setModelFilled(boolean modelFilled) {
+        this.modelFilled.set(modelFilled);
+    }
+
+    public int getResiduePosition() {
+        return residuePosition;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

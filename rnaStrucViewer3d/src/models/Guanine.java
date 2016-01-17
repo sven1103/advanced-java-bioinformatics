@@ -13,6 +13,11 @@ public class Guanine extends PurineModel {
         this.material = new PhongMaterial(Color.YELLOW);
     }
 
+    @Override
+    public int evaluateNumberHBonds(BaseModel otherBase) {
+        return 0;
+    }
+
 
     @Override
     public PurineModel setAtomCoords(Atom atom) {
@@ -22,5 +27,20 @@ public class Guanine extends PurineModel {
             makeAtomCoords(atom);
         }
         return this;
+    }
+
+    @Override
+    void evaluateModel() {
+        boolean isFilledCompletely = true;
+        for(float coordinate : atomCoords){
+            if(coordinate == 0){
+                isFilledCompletely = false;
+                break;
+            }
+        }
+        if(hBondMap.size() < 0){
+            isFilledCompletely = false;
+        }
+        modelFilledComplete.setValue(isFilledCompletely);
     }
 }

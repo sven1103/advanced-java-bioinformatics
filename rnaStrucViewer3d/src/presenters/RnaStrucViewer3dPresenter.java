@@ -2,10 +2,7 @@ package presenters;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.Atom;
-import models.PDBparser;
-import models.RiboseModel;
-import models.RnaStrucViewer3dModel;
+import models.*;
 import system.PDBparseException;
 import views.RnaStrucViewer3dView;
 
@@ -151,9 +148,28 @@ public class RnaStrucViewer3dPresenter {
             view.structures.getChildren().addAll(model.getNucleotideGroup(),
                     model.getBoundsGroup(), model.getPhosphateGroup());
 
+            computeSeondaryStructure();
             view.update();
         }
 
+    }
+
+    public void computeSeondaryStructure(){
+
+        for(Nucleotide nucleotide : model.getNucleotideList()){
+            BaseModel currentBase = nucleotide.getBase();
+
+            for(Nucleotide otherNucleotide : model.getNucleotideList()){
+                BaseModel otherBase = otherNucleotide.getBase();
+
+                int hBonds = currentBase.evaluateNumberHBonds(otherBase);
+
+                System.err.println(String.format("%d(%s%d:%s%d)", hBonds, nucleotide.getBaseType(),
+                            nucleotide.getResiduePosition(), otherNucleotide.getBaseType(),
+                            otherNucleotide.getResiduePosition()));
+
+            }
+        }
     }
 
 }

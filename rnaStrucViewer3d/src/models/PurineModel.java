@@ -10,22 +10,16 @@ import javafx.scene.shape.TriangleMesh;
 
 import javax.tools.Tool;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Created by svenfillinger on 13.12.15.
  */
-public abstract class PurineModel {
-
-    private MeshView meshView;
-
-    private final int NUMBER_ATOMS = 27;
-
-    private float[] atomCoords = new float[NUMBER_ATOMS];
-
-    BooleanProperty modelFilledComplete = new SimpleBooleanProperty(false);
+public abstract class PurineModel extends BaseModel{
 
     protected PhongMaterial material = new PhongMaterial(Color.GRAY);
 
+    private final int NUMBER_ATOMS = 27;
 
     private float[] texCoords = new float[]
             {
@@ -54,10 +48,11 @@ public abstract class PurineModel {
 
 
     public PurineModel(){
+        this.atomCoords = new float[NUMBER_ATOMS];
     }
 
-    public abstract PurineModel setAtomCoords(Atom atom);
 
+    public abstract PurineModel setAtomCoords(Atom atom);
 
     protected void makeAtomCoords(Atom atom){
         if(!AtomMapping.PURINE_MAPPING.containsKey(atom.getAtomName())){
@@ -65,22 +60,15 @@ public abstract class PurineModel {
         } else{
             int position = AtomMapping.PURINE_MAPPING.get(atom.getAtomName());
             System.arraycopy(atom.getCoords(), 0, this.atomCoords, position, 3);
-            evaluateModel();
         }
+        if(AtomMapping.PURINE_HBONDS.contains(atom.getAtomName())){
+            System.err.println("Put it in: " + atom.getAtomName());
+           this.hBondMap.put(atom.getAtomName(), atom);
+        }
+        evaluateModel();
     }
 
-
-    private void evaluateModel(){
-        boolean isFilledCompletely = true;
-        for(float coordinate : atomCoords){
-            if(coordinate == 0){
-                isFilledCompletely = false;
-                break;
-            }
-        }
-        modelFilledComplete.setValue(isFilledCompletely);
-    }
-
+    abstract void evaluateModel();
 
     /**
      * Make the MeshView of the ribose molecule
@@ -108,10 +96,6 @@ public abstract class PurineModel {
         return this;
     }
 
-
-    public MeshView getBase(){
-        return this.meshView;
-    }
 
     public void resetCoords(){
         this.atomCoords = new float[NUMBER_ATOMS];

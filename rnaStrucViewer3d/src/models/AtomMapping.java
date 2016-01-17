@@ -1,8 +1,7 @@
 package models;
 
 import java.lang.reflect.AnnotatedArrayType;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by sven on 12/12/15.
@@ -47,5 +46,31 @@ public class AtomMapping {
         PURINE_MAPPING.put("C8",21);
         PURINE_MAPPING.put("N9",24);
     }
+
+    public static final HashSet<String> PURINE_HBONDS;
+    static
+    {
+        PURINE_HBONDS = new HashSet<>();
+        PURINE_HBONDS.add("H62");
+        PURINE_HBONDS.add("N6");
+        PURINE_HBONDS.add("N1");
+        PURINE_HBONDS.add("O6");
+        PURINE_HBONDS.add("H1");
+        PURINE_HBONDS.add("N2");
+        PURINE_HBONDS.add("H2");
+    }
+
+    public static final HashSet<String> PYRIMIDINE_HBONDS;
+    static
+    {
+        PYRIMIDINE_HBONDS = new HashSet<>();
+        PYRIMIDINE_HBONDS.add("O4");
+        PYRIMIDINE_HBONDS.add("N3");
+        PYRIMIDINE_HBONDS.add("H3");
+        PYRIMIDINE_HBONDS.add("H4");
+        PYRIMIDINE_HBONDS.add("N4");
+        PYRIMIDINE_HBONDS.add("O2");
+    }
+
 
 }

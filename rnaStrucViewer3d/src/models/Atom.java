@@ -1,5 +1,7 @@
 package models;
 
+import javafx.geometry.Point3D;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -69,5 +71,27 @@ public class Atom {
         stringBuilder.append(":");
         stringBuilder.append(Arrays.toString(this.coords));
         return stringBuilder.toString();
+    }
+
+    /**
+     * Calculates the euclidean distance to another atom in three dimensional space
+     * @param atom
+     * @return
+     */
+    public float getDistanceTo(Atom atom){
+        float[] otherCoords = atom.getCoords();
+
+        float distance = (float) Math.sqrt(Math.pow((coords[0]-otherCoords[0]), 2) +
+        Math.pow((coords[1]-otherCoords[1]),2) + Math.pow((coords[2]-otherCoords[2]),2) );
+        System.err.println(distance);
+        return distance;
+    }
+
+    public double getAngle(Atom a1, Atom a2){
+        Point3D vertex = new Point3D(coords[0], coords[1], coords[2]);
+        Point3D pA1 = new Point3D(a1.coords[0], a1.coords[1], a1.coords[2]);
+        Point3D pA2 = new Point3D(a2.coords[0], a2.coords[1], a2.coords[2]);
+
+        return vertex.angle(pA1, pA2);
     }
 }

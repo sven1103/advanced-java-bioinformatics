@@ -15,6 +15,11 @@ public class Cytosin extends PyrimidineModel {
     }
 
     @Override
+    public int evaluateNumberHBonds(BaseModel otherBase) {
+        return 0;
+    }
+
+    @Override
     public PyrimidineModel setAtomCoords(Atom atom) {
 
         if(!atom.getBaseType().equals(BaseType.C)){
@@ -24,5 +29,20 @@ public class Cytosin extends PyrimidineModel {
         }
         return this;
 
+    }
+
+    @Override
+    void evaluateModel() {
+        boolean isFilledCompletely = true;
+        for(float coordinate : atomCoords){
+            if(coordinate == 0){
+                isFilledCompletely = false;
+                break;
+            }
+        }
+        if(hBondMap.size() < 0){
+            isFilledCompletely = false;
+        }
+        modelFilledComplete.setValue(isFilledCompletely);
     }
 }
