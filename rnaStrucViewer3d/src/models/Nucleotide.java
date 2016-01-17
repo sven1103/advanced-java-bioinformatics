@@ -76,7 +76,6 @@ public class Nucleotide {
 
         Tooltip tooltip = new Tooltip(this.baseType.toString() + this.residuePosition);
         Tooltip.install(this.nucleotide, tooltip);
-
         return nucleotide;
     }
 

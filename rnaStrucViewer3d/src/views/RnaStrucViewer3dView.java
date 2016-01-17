@@ -102,6 +102,8 @@ public class RnaStrucViewer3dView {
 
         mainView.setBottom(messageScreen);
 
+        mainView.setPickOnBounds(false);
+
         finalView.getChildren().addAll(scene3d, mainView);
 
 
