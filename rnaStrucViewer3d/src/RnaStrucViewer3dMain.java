@@ -1,6 +1,6 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
-import models.RnaStrucViewer3dModel;
+import models.nucleotide.RnaStrucViewer3dModel;
 import presenters.RnaStrucViewer3dPresenter;
 import views.RnaStrucViewer3dView;
 

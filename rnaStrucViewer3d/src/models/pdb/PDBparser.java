@@ -1,6 +1,8 @@
-package models;
+package models.pdb;
 
 
+import models.misc.Atom;
+import models.nucleotide.BaseType;
 import system.PDBparseException;
 
 import java.io.BufferedReader;

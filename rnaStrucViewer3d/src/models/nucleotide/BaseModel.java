@@ -1,11 +1,11 @@
-package models;
+package models.nucleotide;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.shape.MeshView;
+import models.misc.Atom;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by sven on 1/17/16.
@@ -47,7 +47,7 @@ public class BaseModel implements Cloneable{
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         BaseModel clone = (BaseModel) super.clone();
         clone.hBondMap = (HashMap<String, Atom>) this.hBondMap.clone();
         System.err.println("Size: " + clone.hBondMap.size());

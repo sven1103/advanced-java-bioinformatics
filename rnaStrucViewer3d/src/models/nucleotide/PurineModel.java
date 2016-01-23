@@ -1,16 +1,11 @@
-package models;
+package models.nucleotide;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
-
-import javax.tools.Tool;
-import java.util.Arrays;
-import java.util.HashMap;
+import models.misc.AtomMapping;
+import models.misc.Atom;
 
 /**
  * Created by svenfillinger on 13.12.15.

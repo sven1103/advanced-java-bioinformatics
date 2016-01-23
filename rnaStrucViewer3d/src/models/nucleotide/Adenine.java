@@ -1,28 +1,30 @@
-package models;
+package models.nucleotide;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import models.misc.Atom;
 
 import java.util.HashMap;
 
 /**
  * Created by svenfillinger on 13.12.15.
  */
-public class Uracil extends PyrimidineModel{
+public class Adenine extends PurineModel {
 
-    public Uracil(){
+
+    public Adenine(){
         super();
-        this.material = new PhongMaterial(Color.GRAY);
+        this.material = new PhongMaterial(Color.GREEN);
     }
 
-
     @Override
-    public PyrimidineModel setAtomCoords(Atom atom) {
-        if(!atom.getBaseType().equals(BaseType.U)){
+    public PurineModel setAtomCoords(Atom atom) {
+        if(!atom.getBaseType().equals(BaseType.A)){
             return this;
         } else{
             makeAtomCoords(atom);
         }
+
         return this;
     }
 
@@ -35,18 +37,25 @@ public class Uracil extends PyrimidineModel{
                 break;
             }
         }
-        if(!(hBondMap.containsKey("O4") && hBondMap.containsKey("N3") && hBondMap.containsKey("H3"))){
+        if(!(hBondMap.containsKey("H62") && hBondMap.containsKey("N6") && hBondMap.containsKey("N1"))){
             isFilledCompletely = false;
         }
         modelFilledComplete.setValue(isFilledCompletely);
     }
 
-    /*@Override
+
+
+    @Override
     public int evaluateNumberHBonds(BaseModel otherBase){
-        if(!otherBase.getClass().getName().equalsIgnoreCase("Adenine")){
+        if(!otherBase.getClass().getName().contains("Uracil")){
+            System.err.println(otherBase.getClass().getName());
             return -1;
         } else{
-            float prelDistance = hBondMap.get("H6").getDistanceTo(otherBase.hBondMap.get("O4"));
+            for(String key : hBondMap.keySet()){
+                System.err.println(key);
+            }
+            float prelDistance = hBondMap.get("H62").getDistanceTo(otherBase.hBondMap.get("O4"));
+            System.err.println(prelDistance);
             if(prelDistance == 0 || prelDistance > 10 ){
                 return -1;
             }
@@ -56,20 +65,24 @@ public class Uracil extends PyrimidineModel{
 
     private int numberHBonds(HashMap<String, Atom> otherHBondMap){
         int numberHBonds = -1;
-        float firstHBondDistance = hBondMap.get("H6").getDistanceTo(otherHBondMap.get("O4"));
+        System.err.println(hBondMap.get("H62"));
+        float firstHBondDistance = hBondMap.get("H62").getDistanceTo(otherHBondMap.get("O4"));
         float secondHBondDistance = hBondMap.get("N1").getDistanceTo(otherHBondMap.get("H3"));
-        if(firstHBondDistance >= 2.4f && firstHBondDistance <= 3.2f){
-            if(secondHBondDistance >= 2.4f && secondHBondDistance <= 3.2f){
+        if(firstHBondDistance >= 1.9f && firstHBondDistance <= 3.2f){
+            if(secondHBondDistance >= 1.9f && secondHBondDistance <= 3.2f){
                 numberHBonds = 2;
-                double angle1 = hBondMap.get("H6").getAngle(otherHBondMap.get("O4"), hBondMap.get("N6"));
+                double angle1 = hBondMap.get("H62").getAngle(otherHBondMap.get("O4"), hBondMap.get("N6"));
                 double angle2 = otherHBondMap.get("H3").getAngle(otherHBondMap.get("N3"), hBondMap.get("N1"));
-
+                System.err.println(angle1 + ":" + angle2);
                 if(!isHbondAngle(angle1) || !isHbondAngle(angle2)){
                     numberHBonds = -1;
                 }
             }
         }
         return numberHBonds;
-    }*/
+    }
+
+
+
 
 }

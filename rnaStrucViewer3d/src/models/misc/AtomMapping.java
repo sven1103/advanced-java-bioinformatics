@@ -1,4 +1,4 @@
-package models;
+package models.misc;
 
 import java.lang.reflect.AnnotatedArrayType;
 import java.util.*;

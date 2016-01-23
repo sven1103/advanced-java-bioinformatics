@@ -1,17 +1,17 @@
-package models;
+package models.nucleotide;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import models.misc.Atom;
 
 /**
  * Created by svenfillinger on 13.12.15.
  */
-public class Cytosin extends PyrimidineModel {
+public class Guanine extends PurineModel {
 
-
-    public Cytosin(){
+    public Guanine(){
         super();
-        this.material = new PhongMaterial(Color.RED);
+        this.material = new PhongMaterial(Color.YELLOW);
     }
 
     @Override
@@ -19,16 +19,15 @@ public class Cytosin extends PyrimidineModel {
         return 0;
     }
 
-    @Override
-    public PyrimidineModel setAtomCoords(Atom atom) {
 
-        if(!atom.getBaseType().equals(BaseType.C)){
+    @Override
+    public PurineModel setAtomCoords(Atom atom) {
+        if(!atom.getBaseType().equals(BaseType.G)){
             return this;
-        } else {
+        } else{
             makeAtomCoords(atom);
         }
         return this;
-
     }
 
     @Override

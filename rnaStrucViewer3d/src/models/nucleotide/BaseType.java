@@ -1,4 +1,4 @@
-package models;
+package models.nucleotide;
 
 /**
  * Created by sven on 12/12/15.

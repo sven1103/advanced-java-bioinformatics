@@ -1,10 +1,11 @@
-package models;
+package models.nucleotide;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Sphere;
+import models.misc.Atom;
 
 import java.util.ArrayList;
 import java.util.List;

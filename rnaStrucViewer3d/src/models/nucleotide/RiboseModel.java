@@ -1,4 +1,4 @@
-package models;
+package models.nucleotide;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
+import models.misc.AtomMapping;
+import models.misc.Atom;
 
 
 /**
@@ -19,7 +21,7 @@ public class RiboseModel {
 
     private float[] atomCoords = new float[NUMBER_ATOMS];
 
-    BooleanProperty modelFilledComplete = new SimpleBooleanProperty(false);
+    public BooleanProperty modelFilledComplete = new SimpleBooleanProperty(false);
 
 
     private float[] texCoords = new float[]

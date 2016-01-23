@@ -1,4 +1,4 @@
-package models;
+package models.nucleotide;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -20,7 +20,7 @@ public class Nucleotide implements Cloneable{
 
     private Group nucleotide;
 
-    BooleanProperty modelFilled = new SimpleBooleanProperty(false);
+    public BooleanProperty modelFilled = new SimpleBooleanProperty(false);
 
     private int residuePosition;
 
@@ -111,7 +111,7 @@ public class Nucleotide implements Cloneable{
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

@@ -2,7 +2,12 @@ package presenters;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.*;
+import models.misc.Atom;
+import models.nucleotide.BaseModel;
+import models.nucleotide.Nucleotide;
+import models.nucleotide.RiboseModel;
+import models.nucleotide.RnaStrucViewer3dModel;
+import models.pdb.PDBparser;
 import system.PDBparseException;
 import views.RnaStrucViewer3dView;
 

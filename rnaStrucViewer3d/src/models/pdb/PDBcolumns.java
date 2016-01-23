@@ -1,4 +1,4 @@
-package models;
+package models.pdb;
 
 /**
  * Created by sven on 12/12/15.

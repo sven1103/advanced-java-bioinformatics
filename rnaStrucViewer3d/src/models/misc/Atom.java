@@ -1,6 +1,7 @@
-package models;
+package models.misc;
 
 import javafx.geometry.Point3D;
+import models.nucleotide.BaseType;
 
 import java.io.IOException;
 import java.util.Arrays;

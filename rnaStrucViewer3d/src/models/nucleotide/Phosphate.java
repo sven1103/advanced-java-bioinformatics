@@ -1,8 +1,9 @@
-package models;
+package models.nucleotide;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import models.misc.Atom;
 
 /**
  * Created by sven on 1/6/16.
