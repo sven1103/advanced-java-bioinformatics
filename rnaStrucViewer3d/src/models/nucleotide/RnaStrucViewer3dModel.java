@@ -237,6 +237,7 @@ public class RnaStrucViewer3dModel {
          */
         for(Atom atom : atomList){
             currentAtom = atom;
+
             riboseMolecule.setAtomCoords(atom);
 
             if(atom.getAtomName().equals("C1'")){

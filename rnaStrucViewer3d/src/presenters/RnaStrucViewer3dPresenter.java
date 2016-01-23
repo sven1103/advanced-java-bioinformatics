@@ -161,21 +161,48 @@ public class RnaStrucViewer3dPresenter {
 
     public void computeSecondaryStructure(){
 
-        for(Nucleotide nucleotide : model.getNucleotideList()){
-            BaseModel currentBase = nucleotide.getBase();
+        StringBuilder sequence = new StringBuilder();
 
+        StringBuilder dotBracketNotation = new StringBuilder();
+
+        int sequenceLength = model.getNucleotideList().size();
+
+        for(int i = 0; i<sequenceLength; i++){
+            dotBracketNotation.append(".");
+        }
+
+        int thisIndex = 0;
+
+        for(Nucleotide nucleotide : model.getNucleotideList()){
+            int otherIndex = 0;
+            BaseModel currentBase = nucleotide.getBase();
+            sequence.append(nucleotide.getBaseType());
             for(Nucleotide otherNucleotide : model.getNucleotideList()){
                 BaseModel otherBase = otherNucleotide.getBase();
 
                 int hBonds = currentBase.evaluateNumberHBonds(otherBase);
 
                 if(hBonds >= 2){
+                    System.out.println(String.format("%d:%d", thisIndex, otherIndex));
+                    if(thisIndex < otherIndex){
+                        dotBracketNotation.setCharAt(thisIndex, '(');
+                        dotBracketNotation.setCharAt(otherIndex, ')');
+                    } else{
+                        dotBracketNotation.setCharAt(thisIndex, ')');
+                        dotBracketNotation.setCharAt(otherIndex, '(');
+                    }
+
                     System.err.println(String.format("%d(%s%d:%s%d)", hBonds, nucleotide.getBaseType(),
                             nucleotide.getResiduePosition(), otherNucleotide.getBaseType(),
                             otherNucleotide.getResiduePosition()));
                 }
+                otherIndex++;
             }
+            thisIndex += 1;
         }
+
+        view.sendMessage(String.format("Sequence:\n%s", sequence.toString()));
+        view.sendMessage(String.format("%s", dotBracketNotation.toString()));
     }
 
 }

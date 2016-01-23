@@ -68,7 +68,8 @@ public class Adenine extends PurineModel {
                 numberHBonds = 2;
                 double angle1 = hBondMap.get("H62").getAngle(otherHBondMap.get("O4"), hBondMap.get("N6"));
                 double angle2 = otherHBondMap.get("H3").getAngle(otherHBondMap.get("N3"), hBondMap.get("N1"));
-                if(!isHbondAngle(angle1) || !isHbondAngle(angle2)){
+
+                if(!isHbondAngle(angle1) && !isHbondAngle(angle2)){
                     numberHBonds = -1;
                 }
             }

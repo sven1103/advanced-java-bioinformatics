@@ -67,6 +67,7 @@ public class Cytosin extends PyrimidineModel {
         float firstHBondDistance = hBondMap.get("H41").getDistanceTo(otherHBondMap.get("O6"));
         float secondHBondDistance = hBondMap.get("N3").getDistanceTo(otherHBondMap.get("H1"));
         float thirdHBondDistance = hBondMap.get("O2").getDistanceTo(otherHBondMap.get("H21"));
+
         if(firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE){
             if(secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE){
                 if(thirdHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE) {
@@ -75,7 +76,7 @@ public class Cytosin extends PyrimidineModel {
                     double angle2 = otherHBondMap.get("H1").getAngle(otherHBondMap.get("N1"), hBondMap.get("N3"));
                     double angle3 = otherHBondMap.get("H21").getAngle(otherHBondMap.get("N2"), hBondMap.get("O2"));
 
-                    if (!isHbondAngle(angle1) || !isHbondAngle(angle2) || !isHbondAngle(angle3)) {
+                    if (!isHbondAngle(angle1) && !isHbondAngle(angle2) || !isHbondAngle(angle3)) {
                         numberHBonds = -1;
                     }
                 }
