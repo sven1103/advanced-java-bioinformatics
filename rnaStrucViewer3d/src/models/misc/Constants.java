@@ -11,6 +11,6 @@ public class Constants {
 
     public static final float HBOND_MIN_ANGLE = 100.0f;
 
-    public static final float HBOND_MAX_ANGLE = 100.0f;
+    public static final float HBOND_MAX_ANGLE = 180.0f;
 
 }

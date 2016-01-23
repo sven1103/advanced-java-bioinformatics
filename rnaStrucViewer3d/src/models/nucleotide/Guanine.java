@@ -15,12 +15,6 @@ public class Guanine extends PurineModel {
     }
 
     @Override
-    public int evaluateNumberHBonds(BaseModel otherBase) {
-        return 0;
-    }
-
-
-    @Override
     public PurineModel setAtomCoords(Atom atom) {
         if(!atom.getBaseType().equals(BaseType.G)){
             return this;
@@ -39,7 +33,9 @@ public class Guanine extends PurineModel {
                 break;
             }
         }
-        if(hBondMap.size() < 0){
+        if(!(hBondMap.containsKey("O6") && hBondMap.containsKey("N1") &&
+                hBondMap.containsKey("H1") && hBondMap.containsKey("N2") &&
+                hBondMap.containsKey("H21"))){
             isFilledCompletely = false;
         }
         modelFilledComplete.setValue(isFilledCompletely);

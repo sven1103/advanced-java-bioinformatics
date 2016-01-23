@@ -142,7 +142,6 @@ public class RnaStrucViewer3dModel {
                 } catch (CloneNotSupportedException e){
                     System.err.println("Cannot clone this guanine object");
                 }
-                System.err.println("G filled");
                 guanine.resetCoords();
             }
         });
@@ -155,7 +154,6 @@ public class RnaStrucViewer3dModel {
                 } catch (CloneNotSupportedException e){
                     System.err.println("Cannot clone this uracil object");
                 }
-                System.err.println("U filled");
                 uracil.resetCoords();
             }
         });
@@ -168,7 +166,6 @@ public class RnaStrucViewer3dModel {
                 } catch (CloneNotSupportedException e){
                     System.err.println("Cannot clone this cytosine object");
                 }
-                System.err.println("C filled");
                 cytosine.resetCoords();
             }
         });
@@ -181,7 +178,6 @@ public class RnaStrucViewer3dModel {
                 } catch (CloneNotSupportedException e){
                     System.err.println("Cannot clone this adenine object");
                 }
-                System.err.println("A filled");
                 adenine.resetCoords();
             }
         });

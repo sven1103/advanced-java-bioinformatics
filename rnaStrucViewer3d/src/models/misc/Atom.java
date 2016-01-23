@@ -84,7 +84,6 @@ public class Atom {
 
         float distance = (float) Math.sqrt(Math.pow((coords[0]-otherCoords[0]), 2) +
         Math.pow((coords[1]-otherCoords[1]),2) + Math.pow((coords[2]-otherCoords[2]),2) );
-        System.err.println(distance);
         return distance;
     }
 

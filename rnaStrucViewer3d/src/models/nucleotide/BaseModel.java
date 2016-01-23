@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.shape.MeshView;
 import models.misc.Atom;
+import models.misc.Constants;
 
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ public class BaseModel implements Cloneable{
     protected boolean isHbondAngle(double angle){
         boolean isHBondAngle = false;
 
-        if(angle >= 130.0 && angle <= 180){
+        if(angle >= Constants.HBOND_MIN_ANGLE && angle <= Constants.HBOND_MAX_ANGLE){
             isHBondAngle = true;
         }
         return isHBondAngle;
@@ -50,9 +51,7 @@ public class BaseModel implements Cloneable{
     public Object clone() throws CloneNotSupportedException {
         BaseModel clone = (BaseModel) super.clone();
         clone.hBondMap = (HashMap<String, Atom>) this.hBondMap.clone();
-        System.err.println("Size: " + clone.hBondMap.size());
         this.hBondMap.clear();
-        System.err.println("Size new: " + clone.hBondMap.size() + ": " + this.hBondMap.size());
         return clone;
     }
 }

@@ -57,7 +57,7 @@ public class AtomMapping {
         PURINE_HBONDS.add("O6");
         PURINE_HBONDS.add("H1");
         PURINE_HBONDS.add("N2");
-        PURINE_HBONDS.add("H2");
+        PURINE_HBONDS.add("H21");
     }
 
     public static final HashSet<String> PYRIMIDINE_HBONDS;
@@ -67,7 +67,7 @@ public class AtomMapping {
         PYRIMIDINE_HBONDS.add("O4");
         PYRIMIDINE_HBONDS.add("N3");
         PYRIMIDINE_HBONDS.add("H3");
-        PYRIMIDINE_HBONDS.add("H4");
+        PYRIMIDINE_HBONDS.add("H41");
         PYRIMIDINE_HBONDS.add("N4");
         PYRIMIDINE_HBONDS.add("O2");
     }

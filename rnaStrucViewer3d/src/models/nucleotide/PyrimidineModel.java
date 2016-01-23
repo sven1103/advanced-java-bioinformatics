@@ -51,7 +51,6 @@ abstract class PyrimidineModel extends BaseModel{
             System.arraycopy(atom.getCoords(), 0, this.atomCoords, position, 3);
         }
         if(AtomMapping.PYRIMIDINE_HBONDS.contains(atom.getAtomName())){
-            System.err.println("Pyrimidine hbond: " + atom.getAtomName());
             this.hBondMap.put(atom.getAtomName(), atom);
         }
         evaluateModel();

@@ -57,7 +57,6 @@ public abstract class PurineModel extends BaseModel{
             System.arraycopy(atom.getCoords(), 0, this.atomCoords, position, 3);
         }
         if(AtomMapping.PURINE_HBONDS.contains(atom.getAtomName())){
-            System.err.println("Put it in: " + atom.getAtomName());
            this.hBondMap.put(atom.getAtomName(), atom);
         }
         evaluateModel();

@@ -153,13 +153,13 @@ public class RnaStrucViewer3dPresenter {
             view.structures.getChildren().addAll(model.getNucleotideGroup(),
                     model.getBoundsGroup(), model.getPhosphateGroup());
 
-            computeSeondaryStructure();
+            computeSecondaryStructure();
             view.update();
         }
 
     }
 
-    public void computeSeondaryStructure(){
+    public void computeSecondaryStructure(){
 
         for(Nucleotide nucleotide : model.getNucleotideList()){
             BaseModel currentBase = nucleotide.getBase();
@@ -169,10 +169,11 @@ public class RnaStrucViewer3dPresenter {
 
                 int hBonds = currentBase.evaluateNumberHBonds(otherBase);
 
-                System.err.println(String.format("%d(%s%d:%s%d)", hBonds, nucleotide.getBaseType(),
+                if(hBonds >= 2){
+                    System.err.println(String.format("%d(%s%d:%s%d)", hBonds, nucleotide.getBaseType(),
                             nucleotide.getResiduePosition(), otherNucleotide.getBaseType(),
                             otherNucleotide.getResiduePosition()));
-
+                }
             }
         }
     }
