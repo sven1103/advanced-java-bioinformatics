@@ -6,6 +6,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.DrawMode;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
@@ -26,7 +27,7 @@ public class CovalentBond {
 
     BooleanProperty fullBondSet = new SimpleBooleanProperty(false);
 
-    private Color color = Color.BLACK;
+    private Color color = Color.DARKGRAY;
 
     public CovalentBond(){
     }

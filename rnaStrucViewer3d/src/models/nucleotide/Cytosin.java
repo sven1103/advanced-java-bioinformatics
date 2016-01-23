@@ -2,9 +2,12 @@ package models.nucleotide;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Sphere;
 import models.misc.Atom;
+import models.misc.AtomMapping;
 import models.misc.Constants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -15,7 +18,7 @@ public class Cytosin extends PyrimidineModel {
 
     public Cytosin(){
         super();
-        this.material = new PhongMaterial(Color.RED);
+        this.material = new PhongMaterial(Color.ORANGERED);
     }
 
 
@@ -83,5 +86,48 @@ public class Cytosin extends PyrimidineModel {
             }
         }
         return numberHBonds;
+    }
+
+
+    @Override
+    public Atom[] getHBondAtoms(){
+        Atom[] atomList = new Atom[3];
+        atomList[0] = hBondMap.get("N4");
+        atomList[1] = hBondMap.get("N3");
+        atomList[2] = hBondMap.get("O2");
+        return atomList;
+    }
+
+    public Cytosin makeAdditionalElements() {
+        Sphere nitrogen = new Sphere();
+        Sphere oxygen = new Sphere();
+        CovalentBond bond = new CovalentBond();
+        CovalentBond bond2 = new CovalentBond();
+
+
+        oxygen.setMaterial(new PhongMaterial(Constants.OXYGEN_COLOR));
+        oxygen.setRadius(Constants.EXTRA_ATOMS_RADIUS);
+        oxygen.setTranslateX(hBondMap.get("O2").getCoords()[0]);
+        oxygen.setTranslateY(hBondMap.get("O2").getCoords()[1]);
+        oxygen.setTranslateZ(hBondMap.get("O2").getCoords()[2]);
+
+        nitrogen.setMaterial(new PhongMaterial(Constants.NITROGEN_COLOR));
+        nitrogen.setRadius(Constants.EXTRA_ATOMS_RADIUS);
+        nitrogen.setTranslateX(hBondMap.get("N4").getCoords()[0]);
+        nitrogen.setTranslateY(hBondMap.get("N4").getCoords()[1]);
+        nitrogen.setTranslateZ(hBondMap.get("N4").getCoords()[2]);
+
+        bond.setStartAtom(Arrays.copyOfRange(this.atomCoords, AtomMapping.PYRIMIDINE_MAPPING.get("C2"),
+                AtomMapping.PYRIMIDINE_MAPPING.get("C2") + 3));
+        bond.setEndAtom(this.hBondMap.get("O2").getCoords());
+
+        bond2.setStartAtom(Arrays.copyOfRange(this.atomCoords, AtomMapping.PYRIMIDINE_MAPPING.get("C4"),
+                AtomMapping.PYRIMIDINE_MAPPING.get("C4") + 3));
+        bond2.setEndAtom(this.hBondMap.get("N4").getCoords());
+
+
+        this.otherVisualElements.getChildren().addAll(oxygen, nitrogen,
+                bond2.createConnection(0.02), bond.createConnection(0.02));
+        return this;
     }
 }

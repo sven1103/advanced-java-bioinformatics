@@ -1,7 +1,5 @@
 package models.nucleotide;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import models.misc.AtomMapping;
@@ -13,8 +11,6 @@ import models.misc.Atom;
 abstract class PyrimidineModel extends BaseModel{
 
     private final int NUMBER_ATOMS = 18;
-
-    protected PhongMaterial material = new PhongMaterial(Color.GRAY);
 
     private float[] texCoords = new float[]
             {

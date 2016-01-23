@@ -1,7 +1,5 @@
 package models.nucleotide;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import models.misc.AtomMapping;
@@ -11,8 +9,6 @@ import models.misc.Atom;
  * Created by svenfillinger on 13.12.15.
  */
 public abstract class PurineModel extends BaseModel{
-
-    protected PhongMaterial material = new PhongMaterial(Color.GRAY);
 
     private final int NUMBER_ATOMS = 27;
 

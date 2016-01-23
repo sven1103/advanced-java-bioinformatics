@@ -6,6 +6,7 @@ import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Sphere;
 import models.misc.Atom;
+import models.misc.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class RnaStrucViewer3dModel {
 
     private List<MeshView> riboseList = new ArrayList<>();
 
-    private List<MeshView> baseList = new ArrayList<>();
+    private List<Group> baseList = new ArrayList<>();
 
     private List<Nucleotide> nucleotideList = new ArrayList<>();
 
@@ -28,6 +29,8 @@ public class RnaStrucViewer3dModel {
     private List<Sphere> phosphateList = new ArrayList<>();
 
     private Atom currentAtom = new Atom();
+
+    private List<CovalentBond> hbondList = new ArrayList<>();
 
     /**
      * Nullary constructor
@@ -65,7 +68,7 @@ public class RnaStrucViewer3dModel {
     public Group getBaseGroup(){
         Group baseGroup = new Group();
 
-        for(MeshView element : baseList){
+        for(Group element : baseList){
             baseGroup.getChildren().addAll(element);
         }
         return baseGroup;
@@ -108,6 +111,20 @@ public class RnaStrucViewer3dModel {
         return nucleotideGroup;
     }
 
+    public RnaStrucViewer3dModel setHbondList(ArrayList<CovalentBond> hbondList){
+        this.hbondList = hbondList;
+        return this;
+    }
+
+    public Group getHBondAs3D(){
+        Group group = new Group();
+
+        for(CovalentBond hbond : hbondList){
+            group.getChildren().addAll(hbond.createConnection(Constants.HBOND_RADIUS));
+        }
+        return group;
+    }
+
     public List<Nucleotide> getNucleotideList(){return this.nucleotideList;}
 
     /**
@@ -136,7 +153,7 @@ public class RnaStrucViewer3dModel {
          */
         guanine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
-                baseList.add(guanine.makeMesh().getBase());
+                baseList.add(guanine.makeAdditionalElements().makeMesh().getBase());
                 try{
                     nucleotide.setBase((Guanine) guanine.clone());
                 } catch (CloneNotSupportedException e){
@@ -148,7 +165,7 @@ public class RnaStrucViewer3dModel {
 
         uracil.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
-                baseList.add(uracil.makeMesh().getBase());
+                baseList.add(uracil.makeAdditionalElements().makeMesh().getBase());
                 try{
                     nucleotide.setBase((Uracil) uracil.clone());
                 } catch (CloneNotSupportedException e){
@@ -160,7 +177,7 @@ public class RnaStrucViewer3dModel {
 
         cytosine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
-                baseList.add(cytosine.makeMesh().getBase());
+                baseList.add(cytosine.makeAdditionalElements().makeMesh().getBase());
                 try{
                     nucleotide.setBase((Cytosin) cytosine.clone());
                 } catch (CloneNotSupportedException e){
@@ -172,7 +189,7 @@ public class RnaStrucViewer3dModel {
 
         adenine.modelFilledComplete.addListener((observable, oldValue, newValue) -> {
             if(newValue){
-                baseList.add(adenine.makeMesh().getBase());
+                baseList.add(adenine.makeAdditionalElements().makeMesh().getBase());
                 try{
                     nucleotide.setBase((Adenine)adenine.clone());
                 } catch (CloneNotSupportedException e){
@@ -199,7 +216,7 @@ public class RnaStrucViewer3dModel {
 
         phosphateConnection.fullBondSet.addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                bondList.add(phosphateConnection.createConnection(0.25));
+                bondList.add(phosphateConnection.createConnection(0.2));
                 phosphateConnection.resetBond();
             }
         });

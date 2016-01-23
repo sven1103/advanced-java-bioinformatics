@@ -23,6 +23,7 @@ public class RiboseModel {
 
     public BooleanProperty modelFilledComplete = new SimpleBooleanProperty(false);
 
+    private PhongMaterial material = new PhongMaterial(Color.GRAY);
 
     private float[] texCoords = new float[]
             {
@@ -44,6 +45,11 @@ public class RiboseModel {
 
     public RiboseModel(){
 
+    }
+
+    public RiboseModel setMaterial(PhongMaterial newMaterial){
+        this.material = newMaterial;
+        return this;
     }
 
     public RiboseModel setAtomCoords(Atom atom){
@@ -85,7 +91,7 @@ public class RiboseModel {
 
         MeshView meshView = new MeshView();
         meshView.setMesh(mesh);
-        meshView.setMaterial(new PhongMaterial(Color.LIGHTSKYBLUE));
+        meshView.setMaterial(this.material);
 
 
         //sugarMeshView.setTranslateZ();

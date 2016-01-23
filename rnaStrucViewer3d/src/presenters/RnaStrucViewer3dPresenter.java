@@ -1,17 +1,16 @@
 package presenters;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.misc.Atom;
-import models.nucleotide.BaseModel;
-import models.nucleotide.Nucleotide;
-import models.nucleotide.RiboseModel;
-import models.nucleotide.RnaStrucViewer3dModel;
+import models.nucleotide.*;
 import models.pdb.PDBparser;
 import system.PDBparseException;
 import views.RnaStrucViewer3dView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -167,6 +166,8 @@ public class RnaStrucViewer3dPresenter {
 
         int sequenceLength = model.getNucleotideList().size();
 
+        ArrayList<CovalentBond> hBondCollection = new ArrayList<>();
+
         for(int i = 0; i<sequenceLength; i++){
             dotBracketNotation.append(".");
         }
@@ -177,6 +178,8 @@ public class RnaStrucViewer3dPresenter {
             int otherIndex = 0;
             BaseModel currentBase = nucleotide.getBase();
             sequence.append(nucleotide.getBaseType());
+
+
             for(Nucleotide otherNucleotide : model.getNucleotideList()){
                 BaseModel otherBase = otherNucleotide.getBase();
 
@@ -192,6 +195,19 @@ public class RnaStrucViewer3dPresenter {
                         dotBracketNotation.setCharAt(otherIndex, '(');
                     }
 
+                    Atom[] hBondSet1 = nucleotide.getBase().getHBondAtoms();
+                    Atom[] hBondSet2 = otherNucleotide.getBase().getHBondAtoms();
+
+                    if(hBondSet1.length == hBondSet2.length){
+                        for(int i = 0; i<hBondSet1.length; i++){
+                            Hbond newHBond = new Hbond();
+                            System.err.println("Bond coords: " + hBondSet1[i].getCoords());
+                            newHBond.setStartAtom(hBondSet1[i].getCoords());
+                            newHBond.setEndAtom(hBondSet2[i].getCoords());
+                            hBondCollection.add(newHBond);
+                        }
+                    }
+
                     System.err.println(String.format("%d(%s%d:%s%d)", hBonds, nucleotide.getBaseType(),
                             nucleotide.getResiduePosition(), otherNucleotide.getBaseType(),
                             otherNucleotide.getResiduePosition()));
@@ -200,6 +216,10 @@ public class RnaStrucViewer3dPresenter {
             }
             thisIndex += 1;
         }
+
+
+        view.structures.getChildren().addAll(this.model.setHbondList(hBondCollection).getHBondAs3D());
+
 
         view.sendMessage(String.format("Sequence:\n%s", sequence.toString()));
         view.sendMessage(String.format("%s", dotBracketNotation.toString()));

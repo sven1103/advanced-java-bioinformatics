@@ -12,7 +12,7 @@ public class Phosphate extends Sphere {
 
     private final Color color = Color.CHOCOLATE;
 
-    private static final double DEFAULT_RADIUS = 1.5;
+    private static final double DEFAULT_RADIUS = 1.0;
 
     public Phosphate(Atom atom){
         super(DEFAULT_RADIUS);
