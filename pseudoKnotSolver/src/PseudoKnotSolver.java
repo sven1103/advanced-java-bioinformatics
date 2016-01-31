@@ -1,5 +1,4 @@
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,19 @@ import java.util.List;
  */
 public class PseudoKnotSolver {
 
-
+    /**
+     * This method resolves pseudo-knots from a given list of pairs, representing
+     * the pairing positions in the sequence.
+     * The algorithm makes n*n pairwise checks for nestedness condition.
+     * If false, then it will copy the list and removes one pair from the first list
+     * and the other pair from the copied list. Both lists are both then evaluated
+     * themselves for pseudo-knots recursively until no adjustments can be done anymore.
+     * On the traceback, the algorithm will keep the list that still contains most
+     * nested structures and therefore results in an overall minimum adjustment
+     * necessary on the initial list, to resolve the pseudoknots.
+     * @param basePairs The initial list of pairs
+     * @return A pseudo-knot free list of pairs.
+     */
     public static List<Pair<Integer, Integer>> removePseudoknots(List<Pair<Integer, Integer>> basePairs){
         if(basePairs.isEmpty()){
             return basePairs;
@@ -34,6 +45,13 @@ public class PseudoKnotSolver {
     }
 
 
+    /**
+     * Evaluation of two pairs, determines if they
+     * form a non-nested structure (pseudo-knot).
+     * @param pair The first pair
+     * @param otherPair The other pair of the comparison
+     * @return Forms a pseudo-knot, true or false
+     */
     private static boolean isPseudoKnot(Pair<Integer, Integer> pair,
                                         Pair<Integer, Integer> otherPair){
 
@@ -56,7 +74,6 @@ public class PseudoKnotSolver {
         }
 
 
-
         // i<j<i'<j'
         if(((i<j) && (iPrime<jPrime)) && (j<iPrime)){
             return false;
@@ -71,7 +88,10 @@ public class PseudoKnotSolver {
     }
 
 
-
+    /**
+     * Testing the PseudoKnotSolver
+     * @param args CLI
+     */
     public static void main(String[] args){
         List<Pair<Integer, Integer>> testList = new ArrayList<>();
 
@@ -81,8 +101,6 @@ public class PseudoKnotSolver {
         testList.add(new Pair<>(4,7));
         testList.add(new Pair<>(5,11));
         testList.add(new Pair<>(6,12));
-
-
 
         List newList = removePseudoknots(testList);
 
