@@ -56,7 +56,9 @@ public class Cytosin extends PyrimidineModel {
         if(!otherBase.getClass().getName().contains("Guanine")){
             return -1;
         } else{
+            System.out.println(otherBase.getClass().getName());
             float prelDistance = hBondMap.get("H41").getDistanceTo(otherBase.hBondMap.get("O6"));
+            System.out.println(prelDistance);
             if(prelDistance == 0 || prelDistance > 10 ){
                 return -1;
             }
@@ -71,18 +73,27 @@ public class Cytosin extends PyrimidineModel {
         float secondHBondDistance = hBondMap.get("N3").getDistanceTo(otherHBondMap.get("H1"));
         float thirdHBondDistance = hBondMap.get("O2").getDistanceTo(otherHBondMap.get("H21"));
 
-        if(firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE){
-            if(secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE){
-                if(thirdHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE) {
-                    numberHBonds = 3;
-                    double angle1 = hBondMap.get("H41").getAngle(otherHBondMap.get("O6"), hBondMap.get("N4"));
-                    double angle2 = otherHBondMap.get("H1").getAngle(otherHBondMap.get("N1"), hBondMap.get("N3"));
-                    double angle3 = otherHBondMap.get("H21").getAngle(otherHBondMap.get("N2"), hBondMap.get("O2"));
+        boolean firstBondInrange = firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE;
+        boolean secondBondInrange = secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE;
+        boolean thirdBondInrange = thirdHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE;
 
-                    if (!isHbondAngle(angle1) && !isHbondAngle(angle2) || !isHbondAngle(angle3)) {
-                        numberHBonds = -1;
-                    }
+        if(firstBondInrange || secondBondInrange || thirdBondInrange){
+            numberHBonds = 3;
+            double angle1 = hBondMap.get("H41").getAngle(otherHBondMap.get("O6"), hBondMap.get("N4"));
+            double angle2 = otherHBondMap.get("H1").getAngle(otherHBondMap.get("N1"), hBondMap.get("N3"));
+            double angle3 = otherHBondMap.get("H21").getAngle(otherHBondMap.get("N2"), hBondMap.get("O2"));
+
+            boolean[] hBondEval = {isHbondAngle(angle1), isHbondAngle(angle2), isHbondAngle(angle3)};
+
+            int countWrongAngles = 0;
+            for(int i = 0; i < hBondEval.length; i++){
+                if(!hBondEval[i]){
+                    countWrongAngles++;
                 }
+            }
+
+            if (countWrongAngles > 2) {
+                numberHBonds = -1;
             }
         }
         return numberHBonds;

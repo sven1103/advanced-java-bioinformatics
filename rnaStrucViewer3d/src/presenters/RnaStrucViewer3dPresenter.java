@@ -94,7 +94,9 @@ public class RnaStrucViewer3dPresenter {
             } else if(event.isControlDown()) {
                 view.structures.setTranslateX(view.structures.getTranslateX() + mouseDeltaX);
                 view.structures.setTranslateY(view.structures.getTranslateY() + mouseDeltaY);
-            } else{
+            } else if(event.isSecondaryButtonDown()){
+                view.rz.setAngle(view.rz.getAngle() + mouseDeltaY);
+            }else{
                 view.ry.setAngle(view.ry.getAngle() - mouseDeltaX);
                 view.rx.setAngle(view.rx.getAngle() - mouseDeltaY);
             }});
@@ -185,6 +187,7 @@ public class RnaStrucViewer3dPresenter {
 
                 int hBonds = currentBase.evaluateNumberHBonds(otherBase);
 
+                //System.err.println(String.format("%s%s:%s%s\t %s", nucleotide.getBaseType(), nucleotide.getResiduePosition(), otherNucleotide.getBaseType(), otherNucleotide.getResiduePosition(), hBonds));
                 if(hBonds >= 2){
                     System.out.println(String.format("%d:%d", thisIndex, otherIndex));
                     if(thisIndex < otherIndex){

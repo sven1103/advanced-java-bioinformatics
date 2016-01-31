@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  */
 public class Constants {
 
-    public static final float HBOND_MAX_DISTANCE = 5.0f;
+    public static final float HBOND_MAX_DISTANCE = 3.0f;
 
     public static final float HBOND_MIN_DISTANCE = 1.5f;
 

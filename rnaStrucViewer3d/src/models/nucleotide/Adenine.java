@@ -55,6 +55,7 @@ public class Adenine extends PurineModel {
             return -1;
         } else{
             float prelDistance = hBondMap.get("H62").getDistanceTo(otherBase.hBondMap.get("O4"));
+            System.out.println(prelDistance);
             if(prelDistance == 0 || prelDistance > 10 ){
                 return -1;
             }
@@ -66,17 +67,21 @@ public class Adenine extends PurineModel {
         int numberHBonds = -1;
         float firstHBondDistance = hBondMap.get("H62").getDistanceTo(otherHBondMap.get("O4"));
         float secondHBondDistance = hBondMap.get("N1").getDistanceTo(otherHBondMap.get("H3"));
-        if(firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE){
-            if(secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE){
-                numberHBonds = 2;
-                double angle1 = hBondMap.get("H62").getAngle(otherHBondMap.get("O4"), hBondMap.get("N6"));
-                double angle2 = otherHBondMap.get("H3").getAngle(otherHBondMap.get("N3"), hBondMap.get("N1"));
+        System.out.println(String.format("%s : %s", firstHBondDistance, secondHBondDistance));
 
-                if(!isHbondAngle(angle1) && !isHbondAngle(angle2)){
-                    numberHBonds = -1;
-                }
-            }
-        }
+        boolean firstBondInrange = firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE;
+        boolean secondBondInrange = secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE;
+
+       if(firstBondInrange || secondBondInrange){
+           numberHBonds = 2;
+           double angle1 = hBondMap.get("H62").getAngle(otherHBondMap.get("O4"), hBondMap.get("N6"));
+           double angle2 = otherHBondMap.get("H3").getAngle(otherHBondMap.get("N3"), hBondMap.get("N1"));
+
+           if(!isHbondAngle(angle1) && !isHbondAngle(angle2)){
+               numberHBonds = -1;
+           }
+       }
+
         return numberHBonds;
     }
 

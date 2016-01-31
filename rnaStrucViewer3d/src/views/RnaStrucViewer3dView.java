@@ -34,6 +34,8 @@ public class RnaStrucViewer3dView {
 
     public Rotate rx;
 
+    public Rotate rz;
+
     public Group structures = new Group();
 
     public PerspectiveCamera camera;
@@ -128,8 +130,9 @@ public class RnaStrucViewer3dView {
          */
         ry = new Rotate(0, Rotate.Y_AXIS);
         rx = new Rotate(0, Rotate.X_AXIS);
+        rz = new Rotate(0, Rotate.Z_AXIS);
 
-        structures.getTransforms().addAll(ry, rx);
+        structures.getTransforms().addAll(ry, rx, rz);
         ry.setAngle(10);
         rx.setAngle(10);
 
