@@ -1,16 +1,18 @@
 package presenters;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import models.misc.Atom;
 import models.nucleotide.*;
 import models.pdb.PDBparser;
 import system.PDBparseException;
+import utils.PseudoKnotSolver;
 import views.RnaStrucViewer3dView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -24,6 +26,8 @@ public class RnaStrucViewer3dPresenter {
     double mouseOldY;
     double mouseDeltaX;
     double mouseDeltaY;
+
+    HashSet<Pair<Integer, Integer>> basePairs = new HashSet<>();
 
     List<Atom> atomList;
 
@@ -129,8 +133,10 @@ public class RnaStrucViewer3dPresenter {
         // Parse pdb, if file is chosen
         if(pdbFile != null){
             // If a pdb file is already loaded, reset the model
-            if(!model.getBaseGroup().getChildren().isEmpty())
-                    model = new RnaStrucViewer3dModel();
+            if(!model.getBaseGroup().getChildren().isEmpty()){
+                resetModel();
+            }
+
 
             PDBparser parser = PDBparser.getInstance();
 
@@ -162,6 +168,7 @@ public class RnaStrucViewer3dPresenter {
 
     public void computeSecondaryStructure(){
 
+
         StringBuilder sequence = new StringBuilder();
 
         StringBuilder dotBracketNotation = new StringBuilder();
@@ -176,6 +183,10 @@ public class RnaStrucViewer3dPresenter {
 
         int thisIndex = 0;
 
+        HashSet<Integer> openingBrackets = new HashSet<>();
+        HashSet<Integer> closingBrackets = new HashSet<>();
+
+
         for(Nucleotide nucleotide : model.getNucleotideList()){
             int otherIndex = 0;
             BaseModel currentBase = nucleotide.getBase();
@@ -183,18 +194,27 @@ public class RnaStrucViewer3dPresenter {
 
 
             for(Nucleotide otherNucleotide : model.getNucleotideList()){
+
+
                 BaseModel otherBase = otherNucleotide.getBase();
 
                 int hBonds = currentBase.evaluateNumberHBonds(otherBase);
 
                 //System.err.println(String.format("%s%s:%s%s\t %s", nucleotide.getBaseType(), nucleotide.getResiduePosition(), otherNucleotide.getBaseType(), otherNucleotide.getResiduePosition(), hBonds));
                 if(hBonds >= 2){
+                    if(openingBrackets.contains(thisIndex) || openingBrackets.contains(otherIndex)
+                            || closingBrackets.contains(thisIndex) || closingBrackets.contains(otherIndex)){
+                        continue;
+                    }
+
                     if(thisIndex < otherIndex){
-                        dotBracketNotation.setCharAt(thisIndex, '(');
-                        dotBracketNotation.setCharAt(otherIndex, ')');
+                        this.basePairs.add(new Pair<>(thisIndex, otherIndex));
+                        openingBrackets.add(thisIndex);
+                        closingBrackets.add(otherIndex);
                     } else{
-                        dotBracketNotation.setCharAt(thisIndex, ')');
-                        dotBracketNotation.setCharAt(otherIndex, '(');
+                        this.basePairs.add(new Pair<>(otherIndex, thisIndex));
+                        openingBrackets.add(otherIndex);
+                        closingBrackets.add(thisIndex);
                     }
 
                     Atom[] hBondSet1 = nucleotide.getBase().getHBondAtoms();
@@ -218,12 +238,49 @@ public class RnaStrucViewer3dPresenter {
             thisIndex += 1;
         }
 
+        openingBrackets.forEach(value -> System.out.println(value.toString()));
+        System.out.println("----------");
+        closingBrackets.forEach(value -> System.out.println(value.toString()));
+        System.out.println("----");
+
+        System.out.println(openingBrackets.size());
+        System.out.println(closingBrackets.size());
+
+
+        /*
+        Search base-pair set for pseudo-knots
+         */
+        HashSet<Pair> solvedBasePairs = new HashSet<>(PseudoKnotSolver.removePseudoknots(new ArrayList<>(this.basePairs)));
+
+        for(Pair<Integer, Integer> entry : solvedBasePairs){
+            dotBracketNotation.setCharAt(entry.getKey(), '(');
+            dotBracketNotation.setCharAt(entry.getValue(), ')');
+        }
+
+        HashSet<Pair> pseudoKnots = new HashSet<>(this.basePairs);
+
+        pseudoKnots.removeAll(solvedBasePairs);
+
+
+        for(Pair<Integer, Integer> entry : pseudoKnots){
+
+            System.err.println(entry.toString());
+            dotBracketNotation.setCharAt(entry.getKey(), '[');
+            dotBracketNotation.setCharAt(entry.getValue(), ']');
+
+
+        }
 
         view.structures.getChildren().addAll(this.model.setHbondList(hBondCollection).getHBondAs3D());
 
-
         view.sendMessage(String.format("Sequence:\n%s", sequence.toString()));
         view.sendMessage(String.format("%s", dotBracketNotation.toString()));
+    }
+
+    private void resetModel(){
+        model = new RnaStrucViewer3dModel();
+        basePairs.clear();
+        PseudoKnotSolver.bestSolutionLength = 0;
     }
 
 }

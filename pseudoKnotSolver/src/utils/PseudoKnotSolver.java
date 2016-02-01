@@ -1,3 +1,5 @@
+package utils;
+
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +8,8 @@ import java.util.List;
  * Created by sven on 1/31/16.
  */
 public class PseudoKnotSolver {
+
+    public static int bestSolutionLength = 0;
 
     /**
      * This method resolves pseudo-knots from a given list of pairs, representing
@@ -21,7 +25,7 @@ public class PseudoKnotSolver {
      * @return A pseudo-knot free list of pairs.
      */
     public static List<Pair<Integer, Integer>> removePseudoknots(List<Pair<Integer, Integer>> basePairs){
-        if(basePairs.isEmpty()){
+        if(basePairs.isEmpty() || basePairs.size() < bestSolutionLength){
             return basePairs;
         }
 
@@ -41,6 +45,7 @@ public class PseudoKnotSolver {
                 }
             }
         }
+        bestSolutionLength = basePairs.size();
         return basePairs;
     }
 
