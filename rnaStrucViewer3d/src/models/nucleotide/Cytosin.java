@@ -56,9 +56,7 @@ public class Cytosin extends PyrimidineModel {
         if(!otherBase.getClass().getName().contains("Guanine")){
             return -1;
         } else{
-            System.out.println(otherBase.getClass().getName());
             float prelDistance = hBondMap.get("H41").getDistanceTo(otherBase.hBondMap.get("O6"));
-            System.out.println(prelDistance);
             if(prelDistance == 0 || prelDistance > 10 ){
                 return -1;
             }

@@ -55,7 +55,6 @@ public class Adenine extends PurineModel {
             return -1;
         } else{
             float prelDistance = hBondMap.get("H62").getDistanceTo(otherBase.hBondMap.get("O4"));
-            System.out.println(prelDistance);
             if(prelDistance == 0 || prelDistance > 10 ){
                 return -1;
             }
@@ -67,7 +66,6 @@ public class Adenine extends PurineModel {
         int numberHBonds = -1;
         float firstHBondDistance = hBondMap.get("H62").getDistanceTo(otherHBondMap.get("O4"));
         float secondHBondDistance = hBondMap.get("N1").getDistanceTo(otherHBondMap.get("H3"));
-        System.out.println(String.format("%s : %s", firstHBondDistance, secondHBondDistance));
 
         boolean firstBondInrange = firstHBondDistance >= Constants.HBOND_MIN_DISTANCE && firstHBondDistance <= Constants.HBOND_MAX_DISTANCE;
         boolean secondBondInrange = secondHBondDistance >= Constants.HBOND_MIN_DISTANCE && secondHBondDistance <= Constants.HBOND_MAX_DISTANCE;
